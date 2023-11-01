@@ -711,7 +711,7 @@
         "type": "function",
         "z": "1b29ffdb5d6f4e47",
         "name": "function 3",
-        "func": "msg.payload = msg.payload.toString();\nreturn msg;",
+        "func": "if (msg.payload > 15) {\n    msg.payload = msg.payload.toString();\n}\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,

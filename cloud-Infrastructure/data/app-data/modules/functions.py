@@ -1,8 +1,6 @@
 import pandas as pd
 import numpy as np
  
-
-
 def predict(X, model):
     prediction = model.predict(X)[0]
     return prediction
