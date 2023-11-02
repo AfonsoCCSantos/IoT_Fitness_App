@@ -36,10 +36,6 @@ def missing_value_describe(data):
         print("No misisng data!!!")
 
 
-
-
-
-
 # load the iris dataset
 iris_data = pd.read_csv('data/Iris.csv')
 
@@ -53,9 +49,6 @@ print("the dimension:", iris_data.shape)
 
 # class distribution
 print(iris_data.groupby('Species').size())
-
-
-
 
 
 # we will split data to 80% training data and 20% testing data with random seed of 10
