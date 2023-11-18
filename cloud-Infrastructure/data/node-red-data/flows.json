@@ -748,7 +748,7 @@
         "type": "function",
         "z": "74c32751e4a3fe28",
         "name": "function 5",
-        "func": "msg.payload = msg.payload[\"timeOption\"];\n\nreturn msg;",
+        "func": "return msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,

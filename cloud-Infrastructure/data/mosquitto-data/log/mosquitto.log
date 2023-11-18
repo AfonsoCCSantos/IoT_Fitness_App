@@ -390,3 +390,65 @@
 1699801434: Client nodered_b4f071c0a69b6be8 disconnected.
 1699801434: mosquitto version 2.0.18 terminating
 1699801434: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1700318145: mosquitto version 2.0.18 starting
+1700318145: Config loaded from /mosquitto/config/mosquitto.conf.
+1700318145: Opening ipv4 listen socket on port 1883.
+1700318145: mosquitto version 2.0.18 running
+1700318153: New connection from 172.100.10.15:42688 on port 1883.
+1700318153: New client connected from 172.100.10.15:42688 as nodered_7ae60998dd52cd8b (p2, c1, k60).
+1700318223: Client nodered_7ae60998dd52cd8b disconnected.
+1700318223: New connection from 172.100.10.15:60572 on port 1883.
+1700318223: New client connected from 172.100.10.15:60572 as nodered_ae04db89b241e8e2 (p2, c1, k60).
+1700318696: Client nodered_ae04db89b241e8e2 disconnected.
+1700318697: mosquitto version 2.0.18 terminating
+1700318697: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1700320253: mosquitto version 2.0.18 starting
+1700320253: Config loaded from /mosquitto/config/mosquitto.conf.
+1700320253: Opening ipv4 listen socket on port 1883.
+1700320253: mosquitto version 2.0.18 running
+1700320259: New connection from 172.100.10.15:40554 on port 1883.
+1700320259: New client connected from 172.100.10.15:40554 as nodered_dcb2752a0df4ec96 (p2, c1, k60).
+1700320936: Client nodered_dcb2752a0df4ec96 disconnected.
+1700320936: mosquitto version 2.0.18 terminating
+1700320936: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1700320943: mosquitto version 2.0.18 starting
+1700320943: Config loaded from /mosquitto/config/mosquitto.conf.
+1700320943: Opening ipv4 listen socket on port 1883.
+1700320943: mosquitto version 2.0.18 running
+1700320949: New connection from 172.100.10.15:46388 on port 1883.
+1700320949: New client connected from 172.100.10.15:46388 as nodered_eeee6880dc6646a0 (p2, c1, k60).
+1700321125: Client nodered_eeee6880dc6646a0 disconnected.
+1700321125: mosquitto version 2.0.18 terminating
+1700321125: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1700321166: mosquitto version 2.0.18 starting
+1700321166: Config loaded from /mosquitto/config/mosquitto.conf.
+1700321166: Opening ipv4 listen socket on port 1883.
+1700321166: mosquitto version 2.0.18 running
+1700321173: New connection from 172.100.10.15:47108 on port 1883.
+1700321173: New client connected from 172.100.10.15:47108 as nodered_1c42a04b8a29b0da (p2, c1, k60).
+1700321324: Client nodered_1c42a04b8a29b0da disconnected.
+1700321324: mosquitto version 2.0.18 terminating
+1700321324: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1700321329: mosquitto version 2.0.18 starting
+1700321329: Config loaded from /mosquitto/config/mosquitto.conf.
+1700321329: Opening ipv4 listen socket on port 1883.
+1700321329: mosquitto version 2.0.18 running
+1700321335: New connection from 172.100.10.15:45980 on port 1883.
+1700321335: New client connected from 172.100.10.15:45980 as nodered_7c79c2bd78fb3c84 (p2, c1, k60).
+1700321369: mosquitto version 2.0.18 terminating
+1700321369: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1700321509: mosquitto version 2.0.18 starting
+1700321509: Config loaded from /mosquitto/config/mosquitto.conf.
+1700321509: Opening ipv4 listen socket on port 1883.
+1700321509: mosquitto version 2.0.18 running
+1700321516: New connection from 172.100.10.15:60396 on port 1883.
+1700321516: New client connected from 172.100.10.15:60396 as nodered_5781621f82d81654 (p2, c1, k60).
+1700322998: Client nodered_5781621f82d81654 disconnected.
+1700322998: mosquitto version 2.0.18 terminating
+1700322998: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1700323383: mosquitto version 2.0.18 starting
+1700323383: Config loaded from /mosquitto/config/mosquitto.conf.
+1700323383: Opening ipv4 listen socket on port 1883.
+1700323383: mosquitto version 2.0.18 running
+1700323388: New connection from 172.100.10.15:59844 on port 1883.
+1700323388: New client connected from 172.100.10.15:59844 as nodered_3ec0f9e01ed9847f (p2, c1, k60).

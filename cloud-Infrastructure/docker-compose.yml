@@ -45,10 +45,13 @@ services:
 
   db:
     image: postgres
+    ports:
+      - "5432:5432"
     restart: always
     environment:
       POSTGRES_PASSWORD: password
-      POSTGRES_USER: postgres
+      POSTGRES_USER: group01
+      POSTGRES_DB: project_db
 
   adminer:
     image: adminer
