@@ -15,9 +15,9 @@
         "env": []
     },
     {
-        "id": "b7192e6ccec43c2d",
+        "id": "74c32751e4a3fe28",
         "type": "tab",
-        "label": "Flow 4",
+        "label": "Flow 2",
         "disabled": false,
         "info": "",
         "env": []
@@ -635,60 +635,53 @@
         ]
     },
     {
-        "id": "dac5365751cb7955",
-        "type": "inject",
-        "z": "b7192e6ccec43c2d",
+        "id": "56f0d732cba553d3",
+        "type": "ui_dropdown",
+        "z": "74c32751e4a3fe28",
         "name": "",
-        "props": [
+        "label": "",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "c5639eabb517a2cc",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
             {
-                "p": "payload"
+                "label": "Day",
+                "value": "Day",
+                "type": "str"
             },
             {
-                "p": "topic",
-                "vt": "str"
+                "label": "Week",
+                "value": "Week",
+                "type": "str"
+            },
+            {
+                "label": "Month",
+                "value": "Month",
+                "type": "str"
             }
         ],
-        "repeat": "5",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
         "payload": "",
-        "payloadType": "date",
-        "x": 170,
-        "y": 280,
+        "topic": "timeOption",
+        "topicType": "str",
+        "className": "",
+        "x": 220,
+        "y": 200,
         "wires": [
             [
-                "3b4c3a768e59fe8d"
+                "9b3fa8488848fbb1"
             ]
         ]
     },
     {
-        "id": "3b4c3a768e59fe8d",
-        "type": "function",
-        "z": "b7192e6ccec43c2d",
-        "name": "function 5",
-        "func": "msg.payload = Math.round(Math.random()*100);\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 500,
-        "y": 280,
-        "wires": [
-            [
-                "9bd344db549d65c2",
-                "f45eb041f769860f"
-            ]
-        ]
-    },
-    {
-        "id": "9bd344db549d65c2",
+        "id": "f47084c417922772",
         "type": "debug",
-        "z": "b7192e6ccec43c2d",
-        "name": "debug 8",
+        "z": "74c32751e4a3fe28",
+        "name": "debug 9",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -696,52 +689,78 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 780,
-        "y": 60,
+        "x": 920,
+        "y": 280,
         "wires": []
     },
     {
-        "id": "f45eb041f769860f",
-        "type": "ui_chart",
-        "z": "b7192e6ccec43c2d",
+        "id": "16f8f76840c90071",
+        "type": "ui_date_picker",
+        "z": "74c32751e4a3fe28",
         "name": "",
+        "label": "date",
         "group": "c5639eabb517a2cc",
-        "order": 0,
-        "width": "5",
-        "height": "11",
-        "label": "chart",
-        "chartType": "bar",
-        "legend": "false",
-        "xformat": "HH:mm:ss",
-        "interpolate": "linear",
-        "nodata": "",
-        "dot": false,
-        "ymin": "0",
-        "ymax": "100",
-        "removeOlder": 1,
-        "removeOlderPoints": "",
-        "removeOlderUnit": "3600",
-        "cutout": 0,
-        "useOneColor": false,
-        "useUTC": false,
-        "colors": [
-            "#1f77b4",
-            "#aec7e8",
-            "#ff7f0e",
-            "#2ca02c",
-            "#98df8a",
-            "#d62728",
-            "#ff9896",
-            "#9467bd",
-            "#c5b0d5"
-        ],
-        "outputs": 1,
-        "useDifferentColor": false,
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "topic": "date",
+        "topicType": "str",
         "className": "",
-        "x": 810,
+        "x": 210,
+        "y": 360,
+        "wires": [
+            [
+                "9b3fa8488848fbb1"
+            ]
+        ]
+    },
+    {
+        "id": "9b3fa8488848fbb1",
+        "type": "join",
+        "z": "74c32751e4a3fe28",
+        "name": "",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "2",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 510,
         "y": 280,
         "wires": [
-            []
+            [
+                "4156abe9245a3b8c"
+            ]
+        ]
+    },
+    {
+        "id": "4156abe9245a3b8c",
+        "type": "function",
+        "z": "74c32751e4a3fe28",
+        "name": "function 5",
+        "func": "msg.payload = msg.payload[\"timeOption\"];\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 720,
+        "y": 280,
+        "wires": [
+            [
+                "f47084c417922772"
+            ]
         ]
     }
 ]
