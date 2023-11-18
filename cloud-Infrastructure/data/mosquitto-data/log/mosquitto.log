@@ -452,3 +452,12 @@
 1700323383: mosquitto version 2.0.18 running
 1700323388: New connection from 172.100.10.15:59844 on port 1883.
 1700323388: New client connected from 172.100.10.15:59844 as nodered_3ec0f9e01ed9847f (p2, c1, k60).
+1700324368: Client nodered_3ec0f9e01ed9847f disconnected.
+1700324368: mosquitto version 2.0.18 terminating
+1700324368: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1700324411: mosquitto version 2.0.18 starting
+1700324411: Config loaded from /mosquitto/config/mosquitto.conf.
+1700324411: Opening ipv4 listen socket on port 1883.
+1700324411: mosquitto version 2.0.18 running
+1700324416: New connection from 172.100.10.15:56456 on port 1883.
+1700324416: New client connected from 172.100.10.15:56456 as nodered_52b393daabb0393e (p2, c1, k60).

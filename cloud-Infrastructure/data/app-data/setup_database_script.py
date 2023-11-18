@@ -32,9 +32,10 @@ try:
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s);
                 '''
                 cursor.execute(insert_data_query, (timestamp, int(activity_type), float(acceleration_x), float(acceleration_y), float(acceleration_z), float(gyro_x), float(gyro_y), float(gyro_z)))
+    connection.commit()  
 finally:
     # Close the connection
+    cursor.close()
     connection.close()
-
 
 #date;time;activity;acceleration_x;acceleration_y;acceleration_z;gyro_x;gyro_y;gyro_z
