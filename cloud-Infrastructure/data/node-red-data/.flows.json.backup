@@ -473,7 +473,8 @@
         "y": 280,
         "wires": [
             [
-                "b5f343a20278eea1"
+                "b5f343a20278eea1",
+                "85ee7547c83fb2fb"
             ]
         ]
     },
@@ -669,11 +670,12 @@
         "topic": "timeOption",
         "topicType": "str",
         "className": "",
-        "x": 220,
+        "x": 120,
         "y": 200,
         "wires": [
             [
-                "9b3fa8488848fbb1"
+                "9b3fa8488848fbb1",
+                "f5c110c29be016b8"
             ]
         ]
     },
@@ -689,7 +691,7 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 920,
+        "x": 1140,
         "y": 280,
         "wires": []
     },
@@ -707,7 +709,7 @@
         "topic": "date",
         "topicType": "str",
         "className": "",
-        "x": 210,
+        "x": 130,
         "y": 360,
         "wires": [
             [
@@ -735,28 +737,48 @@
         "reduceInit": "",
         "reduceInitType": "",
         "reduceFixup": "",
-        "x": 510,
+        "x": 330,
         "y": 280,
         "wires": [
             [
-                "4156abe9245a3b8c"
+                "934cb4b6c62e7b71"
             ]
         ]
     },
     {
-        "id": "4156abe9245a3b8c",
-        "type": "function",
+        "id": "934cb4b6c62e7b71",
+        "type": "json",
         "z": "74c32751e4a3fe28",
-        "name": "function 5",
-        "func": "msg.payload = msg.payload[\"timeOption\"];\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 720,
+        "name": "",
+        "property": "payload",
+        "action": "str",
+        "pretty": false,
+        "x": 590,
         "y": 280,
+        "wires": [
+            [
+                "f47084c417922772"
+            ]
+        ]
+    },
+    {
+        "id": "f5c110c29be016b8",
+        "type": "http request",
+        "z": "74c32751e4a3fe28",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://app:8000/training",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 690,
+        "y": 180,
         "wires": [
             [
                 "f47084c417922772"
