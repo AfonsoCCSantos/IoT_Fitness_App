@@ -473,8 +473,7 @@
         "y": 280,
         "wires": [
             [
-                "b5f343a20278eea1",
-                "85ee7547c83fb2fb"
+                "b5f343a20278eea1"
             ]
         ]
     },
@@ -690,7 +689,7 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1140,
+        "x": 960,
         "y": 280,
         "wires": []
     },
@@ -736,39 +735,70 @@
         "reduceInit": "",
         "reduceInitType": "",
         "reduceFixup": "",
-        "x": 330,
+        "x": 290,
         "y": 280,
         "wires": [
             [
-                "934cb4b6c62e7b71"
+                "9262edaecaf71530"
             ]
         ]
     },
     {
-        "id": "934cb4b6c62e7b71",
-        "type": "json",
+        "id": "c0ac4c0e6be915ce",
+        "type": "change",
         "z": "74c32751e4a3fe28",
         "name": "",
-        "property": "payload",
-        "action": "str",
-        "pretty": false,
-        "x": 550,
+        "rules": [
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 610,
         "y": 280,
         "wires": [
             [
-                "f5c110c29be016b8"
+                "699ebd4b256832df"
             ]
         ]
     },
     {
-        "id": "f5c110c29be016b8",
+        "id": "9262edaecaf71530",
+        "type": "function",
+        "z": "74c32751e4a3fe28",
+        "name": "function 5",
+        "func": "var initialUrl = \"http://app:8000/training/\";\nmsg.payload = initialUrl + msg.payload[\"date\"] + \"/\" + msg.payload[\"timeOption\"];\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 280,
+        "wires": [
+            [
+                "c0ac4c0e6be915ce"
+            ]
+        ]
+    },
+    {
+        "id": "699ebd4b256832df",
         "type": "http request",
         "z": "74c32751e4a3fe28",
         "name": "",
-        "method": "POST",
+        "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "http://app:8000/training",
+        "url": "",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -776,7 +806,7 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 850,
+        "x": 790,
         "y": 280,
         "wires": [
             [

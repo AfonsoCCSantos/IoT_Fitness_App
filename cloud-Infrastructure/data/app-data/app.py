@@ -40,14 +40,10 @@ def predict():
 
     return response, 200
 
-@app.route('/training', methods=['POST'])
-def training():
-    feature_dict = request.get_json()
-    if not feature_dict:
-        return {
-            'error': 'Body is empty.'
-        }, 500
-    return "a", 200
+@app.route('/training/<date>/<timeOption>', methods=['GET'])
+def training(date, timeOption):
+    str = "a" + timeOption
+    return str, 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
