@@ -686,10 +686,11 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 780,
+        "x": 960,
         "y": 280,
         "wires": []
     },
@@ -744,28 +745,6 @@
         ]
     },
     {
-        "id": "f5c110c29be016b8",
-        "type": "http request",
-        "z": "74c32751e4a3fe28",
-        "name": "",
-        "method": "POST",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "http://app:8000/training",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 850,
-        "y": 560,
-        "wires": [
-            []
-        ]
-    },
-    {
         "id": "c0ac4c0e6be915ce",
         "type": "change",
         "z": "74c32751e4a3fe28",
@@ -788,7 +767,7 @@
         "y": 280,
         "wires": [
             [
-                "f47084c417922772"
+                "699ebd4b256832df"
             ]
         ]
     },
@@ -809,6 +788,30 @@
         "wires": [
             [
                 "c0ac4c0e6be915ce"
+            ]
+        ]
+    },
+    {
+        "id": "699ebd4b256832df",
+        "type": "http request",
+        "z": "74c32751e4a3fe28",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 790,
+        "y": 280,
+        "wires": [
+            [
+                "f47084c417922772"
             ]
         ]
     }

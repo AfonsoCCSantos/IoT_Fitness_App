@@ -686,11 +686,12 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
         "x": 960,
-        "y": 280,
+        "y": 40,
         "wires": []
     },
     {
@@ -786,7 +787,8 @@
         "y": 280,
         "wires": [
             [
-                "c0ac4c0e6be915ce"
+                "c0ac4c0e6be915ce",
+                "f47084c417922772"
             ]
         ]
     },
