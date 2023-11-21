@@ -17,7 +17,7 @@ try:
         cursor.execute("DROP TABLE IF EXISTS activity")
         cursor.execute("CREATE TABLE activity (timestamp_column TIMESTAMP PRIMARY KEY, activity_type INTEGER, acceleration_x DECIMAL, acceleration_y DECIMAL, acceleration_z DECIMAL, gyro_x DECIMAL, gyro_y DECIMAL, gyro_z DECIMAL)")
         # Read data from CSV file and insert into the table
-        with open('data/training.data', 'r') as csvfile:
+        with open('data/output.data', 'r') as csvfile:
             csvreader = csv.reader(csvfile, delimiter=';')
             for row in csvreader:
                 # Parse the data
