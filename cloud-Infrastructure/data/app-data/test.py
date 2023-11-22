@@ -47,21 +47,22 @@ for row in rows:
     row_timestamp_datetime = row[0]
     current_row_seconds = int(row_timestamp_datetime.timestamp())
 
-    if current_row_seconds - last_row_seconds >= 10:
+    if current_row_seconds - last_row_seconds >= 500:
         if int(last_row[1]) == 0:
             time_walked += last_row_seconds - seconds_start_of_activity
         else:
             time_run += last_row_seconds - seconds_start_of_activity
         seconds_start_of_activity = current_row_seconds 
         activity_type_value = row[1]
-
-    if row[1] != activity_type_value:
+    elif row[1] != activity_type_value:
         if int(row[1]) == 0:
-            time_walked += current_row_seconds - seconds_start_of_activity
+            time_run += last_row_seconds - seconds_start_of_activity
         else:
-            time_run += current_row_seconds - seconds_start_of_activity
+            time_walked += last_row_seconds - seconds_start_of_activity
         seconds_start_of_activity = current_row_seconds 
         activity_type_value = row[1]
+
+    # print(str(row[1]) + " " +  str(activity_type_value))
 
     last_row = row
     last_row_seconds = current_row_seconds
