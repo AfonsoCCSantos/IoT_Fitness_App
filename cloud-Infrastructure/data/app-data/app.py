@@ -12,8 +12,11 @@ from modules.functions import get_model_response
 from datetime import datetime, timedelta, timezone
 
 
-app = Flask(__name__)
+#Assuming the user is a male 20-29yo, 1.80m, 75kg
+calories_burned_walking_permin = 0.035 * 75 + ((1.36**2) / 1.80) * 0.029 * 75
+calories_burned_running_permin = 0.035 * 75 + ((2.72**2) / 1.80) * 0.029 * 75
 
+app = Flask(__name__)
 
 @app.route('/health', methods=['GET'])
 def health():
@@ -132,7 +135,21 @@ def training(date, timeOption):
         time_run += final_row_seconds - seconds_start_of_activity
 
 
-    return date_object, 200
+    #Assuming the user is a male 20-29yo, 1.80m, 75kg
+    distance_walked = (1.36 * time_walked) / 1000 #distance in kms
+    distance_run = (1.36 * 2 * time_run) / 1000 #distance in kms
+
+    calories_burned_running = (time_run / 60) * calories_burned_running_permin
+    calories_burned_walking = (time_walked / 60) * calories_burned_walking_permin
+
+    result_dict = {
+        "distance_walked": distance_walked,
+        "distance_run": distance_run,
+        "calories_burned_running": calories_burned_running,
+        "calories_burned_walking": calories_burned_walking
+    }
+
+    return result_dict, 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
