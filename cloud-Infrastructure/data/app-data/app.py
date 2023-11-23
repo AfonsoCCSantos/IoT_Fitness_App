@@ -38,8 +38,8 @@ def predict():
 
     return response, 200
 
-@app.route('/training/<date>/<timeOption>', methods=['GET'])
-def training(date, timeOption):
+@app.route('/training/<date>/<timeOption>/<walking_thresh>/<running_thresh>', methods=['GET'])
+def training(date, timeOption, walking_thresh, running_thresh):
     connection = psycopg2.connect(
         database="project_db",
         user="group01",
@@ -144,14 +144,31 @@ def training(date, timeOption):
 
     calories_burned_running = (time_run / 60) * calories_burned_running_permin
     calories_burned_walking = (time_walked / 60) * calories_burned_walking_permin
+    total_time_activity = time_run + time_walked
+
+    walking_thresh = int(walking_thresh)
+    running_thresh = int(running_thresh)
+    if timeOption == "Week":
+        walking_thresh = walking_thresh * 7
+        running_thresh = running_thresh * 7
+    elif timeOption == "Month":
+        walking_thresh = walking_thresh * 30
+        running_thresh = running_thresh * 30
+    
+    active = False
+    if time_run >= running_thresh and time_walked >= walking_thresh:
+        active = True
 
     result_dict = {
-        "distance_walked": distance_walked,
-        "distance_run": distance_run,
+        "distance_walking": distance_walked,
+        "distance_running": distance_run,
         "calories_burned_running": calories_burned_running,
-        "calories_burned_walking": calories_burned_walking
+        "calories_burned_walking": calories_burned_walking,
+        "time_running": time_run,
+        "time_walking": time_walked,
+        "total_time_activity": total_time_activity,
+        "active": active
     }
-
     return result_dict, 200
 
 if __name__ == '__main__':
