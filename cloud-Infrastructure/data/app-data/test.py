@@ -62,8 +62,6 @@ for row in rows:
         seconds_start_of_activity = current_row_seconds 
         activity_type_value = row[1]
 
-    # print(str(row[1]) + " " +  str(activity_type_value))
-
     last_row = row
     last_row_seconds = current_row_seconds
 

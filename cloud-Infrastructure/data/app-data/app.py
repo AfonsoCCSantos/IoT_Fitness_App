@@ -48,12 +48,15 @@ def training(date, timeOption):
         password="password",
         host="localhost"
     )
+
     cursor = connection.cursor()
 
-    timestamp_seconds = date / 1000.0
+    timestamp_seconds = 1688166000000 / 1000.0
     date_object = datetime.fromtimestamp(timestamp_seconds, tz=timezone.utc)
     date_object += timedelta(days=1)
 
+    #Execute the appropriate query, depending on whether the user wants to sort by day,
+    #week or month
     if timeOption == "Day":
         formatted_target_date = date_object.strftime('%Y-%m-%d')
         sql_query = """
@@ -62,7 +65,6 @@ def training(date, timeOption):
             WHERE DATE(timestamp_column) = %s
         """
         cursor.execute(sql_query, (formatted_target_date,))
-
     elif timeOption == "Week":
         target_year, target_week, _ = date_object.isocalendar()
         sql_query = """
@@ -72,7 +74,6 @@ def training(date, timeOption):
             AND EXTRACT(WEEK FROM timestamp_column) = %s
         """
         cursor.execute(sql_query, (target_year, target_week,))
-    
     elif timeOption == "Month":
         target_month = date_object.month
         sql_query = """
@@ -84,30 +85,53 @@ def training(date, timeOption):
         cursor.execute(sql_query, (target_year, target_month,))
 
     rows = cursor.fetchall()
+    cursor.close()
+    connection.close()
     
     time_walked = 0
     time_run = 0
 
     first_row_of_activity = rows[0]
-    timestamp_string = first_row_of_activity['timestamp_column']
-    timestamp_datetime = datetime.strptime(timestamp_string, '%Y-%m-%d %H:%M:%S.%f')
+    timestamp_datetime = first_row_of_activity[0] #0 is the timestamp column
     seconds_start_of_activity = int(timestamp_datetime.timestamp())
 
-    activity_type_value = first_row_of_activity['activity_type']
+    last_row = first_row_of_activity
+    last_row_seconds = seconds_start_of_activity
+
+    activity_type_value = first_row_of_activity[1] #1 is the activity type column
 
     for row in rows:
-        if row['activity_type'] != activity_type_value:
-            row_timestamp_string = row['timestamp_column']
-            row_timestamp_datetime = datetime.strptime(row_timestamp_string, '%Y-%m-%d %H:%M:%S.%f')
-            seconds_end_of_activity = int(row_timestamp_datetime.timestamp())
+        row_timestamp_datetime = row[0]
+        current_row_seconds = int(row_timestamp_datetime.timestamp())
 
-            if int(row['activity_type']) == 0:
-                time_walked += seconds_end_of_activity - seconds_start_of_activity
+        if current_row_seconds - last_row_seconds >= 500:
+            if int(last_row[1]) == 0:
+                time_walked += last_row_seconds - seconds_start_of_activity
             else:
-                time_run += seconds_end_of_activity - seconds_start_of_activity
+                time_run += last_row_seconds - seconds_start_of_activity
+            seconds_start_of_activity = current_row_seconds 
+            activity_type_value = row[1]
+        elif row[1] != activity_type_value:
+            if int(row[1]) == 0:
+                time_run += last_row_seconds - seconds_start_of_activity
+            else:
+                time_walked += last_row_seconds - seconds_start_of_activity
+            seconds_start_of_activity = current_row_seconds 
+            activity_type_value = row[1]
 
-            seconds_start_of_activity = seconds_end_of_activity 
+        last_row = row
+        last_row_seconds = current_row_seconds    
     
+    final_row = rows[-1]
+    final_row_timestamp_datetime = final_row[0]
+    final_row_seconds = int(final_row_timestamp_datetime.timestamp())
+
+    if activity_type_value == 0:
+        time_walked += final_row_seconds - seconds_start_of_activity
+    else:
+        time_run += final_row_seconds - seconds_start_of_activity
+
+
     return date_object, 200
 
 if __name__ == '__main__':
