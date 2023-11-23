@@ -11,11 +11,6 @@ import psycopg2
 from modules.functions import get_model_response
 from datetime import datetime, timedelta, timezone
 
-
-#Assuming the user is a male 20-29yo, 1.80m, 75kg
-calories_burned_walking_permin = 0.035 * 75 + ((1.36**2) / 1.80) * 0.029 * 75
-calories_burned_running_permin = 0.035 * 75 + ((2.72**2) / 1.80) * 0.029 * 75
-
 app = Flask(__name__)
 
 @app.route('/health', methods=['GET'])
@@ -49,12 +44,12 @@ def training(date, timeOption):
         database="project_db",
         user="group01",
         password="password",
-        host="localhost"
+        host="db"
     )
 
     cursor = connection.cursor()
 
-    timestamp_seconds = 1688166000000 / 1000.0
+    timestamp_seconds = int(date) / 1000.0
     date_object = datetime.fromtimestamp(timestamp_seconds, tz=timezone.utc)
     date_object += timedelta(days=1)
 
@@ -78,16 +73,22 @@ def training(date, timeOption):
         """
         cursor.execute(sql_query, (target_year, target_week,))
     elif timeOption == "Month":
+        target_year = date_object.year
         target_month = date_object.month
         sql_query = """
             SELECT *
-            FROM your_table
-            WHERE EXTRACT(YEAR FROM your_timestamp_column) = %s
-            AND EXTRACT(MONTH FROM your_timestamp_column) = %s
+            FROM activity
+            WHERE EXTRACT(YEAR FROM timestamp_column) = %s
+            AND EXTRACT(MONTH FROM timestamp_column) = %s
         """
         cursor.execute(sql_query, (target_year, target_month,))
 
     rows = cursor.fetchall()
+    if len(rows) == 0:
+        cursor.close()
+        connection.close()
+        return ""
+    
     cursor.close()
     connection.close()
     
@@ -134,8 +135,10 @@ def training(date, timeOption):
     else:
         time_run += final_row_seconds - seconds_start_of_activity
 
-
     #Assuming the user is a male 20-29yo, 1.80m, 75kg
+    #Assuming the user is a male 20-29yo, 1.80m, 75kg
+    calories_burned_walking_permin = 0.035 * 75 + ((1.36**2) / 1.80) * 0.029 * 75
+    calories_burned_running_permin = 0.035 * 75 + ((2.72**2) / 1.80) * 0.029 * 75
     distance_walked = (1.36 * time_walked) / 1000 #distance in kms
     distance_run = (1.36 * 2 * time_run) / 1000 #distance in kms
 
