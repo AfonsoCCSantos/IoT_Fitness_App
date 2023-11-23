@@ -7,14 +7,6 @@
         "info": ""
     },
     {
-        "id": "dac6ce028b63183c",
-        "type": "tab",
-        "label": "Flow 3",
-        "disabled": false,
-        "info": "",
-        "env": []
-    },
-    {
         "id": "74c32751e4a3fe28",
         "type": "tab",
         "label": "Flow 2",
@@ -507,139 +499,11 @@
         ]
     },
     {
-        "id": "d5dedc934071444d",
-        "type": "comment",
-        "z": "dac6ce028b63183c",
-        "name": "MyCommentNode",
-        "info": "Some text...",
-        "x": 250,
-        "y": 260,
-        "wires": []
-    },
-    {
-        "id": "d8259e8f4b344183",
-        "type": "inject",
-        "z": "dac6ce028b63183c",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "Hello World",
-        "payloadType": "str",
-        "x": 250,
-        "y": 380,
-        "wires": [
-            [
-                "afd6f8499534a768"
-            ]
-        ]
-    },
-    {
-        "id": "afd6f8499534a768",
-        "type": "debug",
-        "z": "dac6ce028b63183c",
-        "name": "debug 6",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 520,
-        "y": 400,
-        "wires": []
-    },
-    {
-        "id": "0f061a33cf3509b1",
-        "type": "mqtt in",
-        "z": "dac6ce028b63183c",
-        "name": "",
-        "topic": "idc/test",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "037aecdc6926ce9a",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 250,
-        "y": 560,
-        "wires": [
-            [
-                "4e3814e63286c6f5"
-            ]
-        ]
-    },
-    {
-        "id": "1ca1b8dccd04a8fb",
-        "type": "debug",
-        "z": "dac6ce028b63183c",
-        "name": "debug 7",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 820,
-        "y": 560,
-        "wires": []
-    },
-    {
-        "id": "4e3814e63286c6f5",
-        "type": "json",
-        "z": "dac6ce028b63183c",
-        "name": "",
-        "property": "payload",
-        "action": "obj",
-        "pretty": false,
-        "x": 450,
-        "y": 560,
-        "wires": [
-            [
-                "b610542b8fd7d614"
-            ]
-        ]
-    },
-    {
-        "id": "b610542b8fd7d614",
-        "type": "function",
-        "z": "dac6ce028b63183c",
-        "name": "function 4",
-        "func": "msg.payload = msg.payload[\"analyze\"];\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 640,
-        "y": 560,
-        "wires": [
-            [
-                "1ca1b8dccd04a8fb"
-            ]
-        ]
-    },
-    {
         "id": "56f0d732cba553d3",
         "type": "ui_dropdown",
         "z": "74c32751e4a3fe28",
         "name": "",
-        "label": "",
+        "label": "timeOption",
         "tooltip": "",
         "place": "Select option",
         "group": "c5639eabb517a2cc",
@@ -669,8 +533,8 @@
         "topic": "timeOption",
         "topicType": "str",
         "className": "",
-        "x": 120,
-        "y": 200,
+        "x": 310,
+        "y": 120,
         "wires": [
             [
                 "9b3fa8488848fbb1"
@@ -690,7 +554,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 960,
+        "x": 1500,
         "y": 280,
         "wires": []
     },
@@ -708,8 +572,8 @@
         "topic": "date",
         "topicType": "str",
         "className": "",
-        "x": 130,
-        "y": 360,
+        "x": 310,
+        "y": 420,
         "wires": [
             [
                 "9b3fa8488848fbb1"
@@ -730,13 +594,13 @@
         "joinerType": "str",
         "accumulate": false,
         "timeout": "",
-        "count": "2",
+        "count": "4",
         "reduceRight": false,
         "reduceExp": "",
         "reduceInit": "",
         "reduceInitType": "",
         "reduceFixup": "",
-        "x": 290,
+        "x": 470,
         "y": 280,
         "wires": [
             [
@@ -763,7 +627,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 610,
+        "x": 830,
         "y": 280,
         "wires": [
             [
@@ -776,14 +640,14 @@
         "type": "function",
         "z": "74c32751e4a3fe28",
         "name": "function 5",
-        "func": "var initialUrl = \"http://app:8000/training/\";\nmsg.payload = initialUrl + msg.payload[\"date\"] + \"/\" + msg.payload[\"timeOption\"];\nreturn msg;",
+        "func": "var initialUrl = \"http://app:8000/training/\";\nmsg.payload = initialUrl + msg.payload[\"date\"] + \"/\" + msg.payload[\"timeOption\"] + \"/1\" + \"/2\";\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 440,
+        "x": 640,
         "y": 280,
         "wires": [
             [
@@ -807,11 +671,79 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 790,
+        "x": 1010,
+        "y": 280,
+        "wires": [
+            [
+                "0286246867f8fbe4"
+            ]
+        ]
+    },
+    {
+        "id": "0286246867f8fbe4",
+        "type": "json",
+        "z": "74c32751e4a3fe28",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 1170,
         "y": 280,
         "wires": [
             [
                 "f47084c417922772"
+            ]
+        ]
+    },
+    {
+        "id": "0caf23aba3368474",
+        "type": "ui_text_input",
+        "z": "74c32751e4a3fe28",
+        "name": "",
+        "label": "Activity Threshold for Running",
+        "tooltip": "",
+        "group": "c5639eabb517a2cc",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "number",
+        "delay": "0",
+        "topic": "running_thresh",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "str",
+        "x": 170,
+        "y": 180,
+        "wires": [
+            [
+                "9b3fa8488848fbb1"
+            ]
+        ]
+    },
+    {
+        "id": "8d221378be07d301",
+        "type": "ui_text_input",
+        "z": "74c32751e4a3fe28",
+        "name": "",
+        "label": "Activity Threshold for Walking",
+        "tooltip": "",
+        "group": "c5639eabb517a2cc",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "number",
+        "delay": "0",
+        "topic": "walking_thresh",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "str",
+        "x": 170,
+        "y": 300,
+        "wires": [
+            [
+                "9b3fa8488848fbb1"
             ]
         ]
     }

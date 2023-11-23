@@ -34,15 +34,6 @@ services:
       idc-net:
         ipv4_address: 172.100.10.10
 
-  web:
-    build: ./data/app-data/
-    container_name: app
-    ports:
-      - "8000:8000"
-    networks:
-      idc-net:
-        ipv4_address: 172.100.10.14
-
   db:
     image: postgres
     ports:
@@ -52,6 +43,20 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: group01
       POSTGRES_DB: project_db
+    networks:
+      idc-net:
+        ipv4_address: 172.100.10.16
+
+  web:
+    build: ./data/app-data/
+    container_name: app
+    ports:
+      - "8000:8000"
+    networks:
+      idc-net:
+        ipv4_address: 172.100.10.14
+    depends_on:
+      - db
 
   adminer:
     image: adminer
