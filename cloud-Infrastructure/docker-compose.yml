@@ -57,6 +57,8 @@ services:
         ipv4_address: 172.100.10.14
     depends_on:
       - db
+    volumes:
+      - ./data/app-data:/app
 
   adminer:
     image: adminer
