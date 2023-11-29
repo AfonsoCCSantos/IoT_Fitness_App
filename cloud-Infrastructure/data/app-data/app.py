@@ -46,7 +46,7 @@ def training(date, timeOption, walking_thresh, running_thresh):
         password="password",
         host="db"
     )
-
+    
     cursor = connection.cursor()
 
     timestamp_seconds = int(date) / 1000.0
@@ -108,7 +108,7 @@ def training(date, timeOption, walking_thresh, running_thresh):
         row_timestamp_datetime = row[0]
         current_row_seconds = int(row_timestamp_datetime.timestamp())
 
-        if current_row_seconds - last_row_seconds >= 500:
+        if current_row_seconds - last_row_seconds >= 90:
             if int(last_row[1]) == 0:
                 time_walked += last_row_seconds - seconds_start_of_activity
             else:

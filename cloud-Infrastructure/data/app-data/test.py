@@ -78,6 +78,7 @@ else:
 
 print(time_walked)
 print(time_run)
+print(len(rows))
 
 #---------------------------------------
 

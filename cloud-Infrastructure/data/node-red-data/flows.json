@@ -15,6 +15,14 @@
         "env": []
     },
     {
+        "id": "dcd2cdbeda340bed",
+        "type": "tab",
+        "label": "Flow 5",
+        "disabled": true,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "037aecdc6926ce9a",
         "type": "mqtt-broker",
         "name": "IdC",
@@ -176,8 +184,8 @@
     {
         "id": "c5639eabb517a2cc",
         "type": "ui_group",
-        "name": "Default",
-        "tab": "b4ffd550631ffede",
+        "name": "Calories Burned per Month",
+        "tab": "65d0453cb44baddf",
         "order": 1,
         "disp": true,
         "width": "6",
@@ -187,9 +195,50 @@
     {
         "id": "80fd122905837740",
         "type": "ui_group",
-        "name": "AnotherWidget",
+        "name": "Form",
         "tab": "b4ffd550631ffede",
         "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "e433c098e6db5b7c",
+        "type": "ui_group",
+        "name": "Day Stats",
+        "tab": "b4ffd550631ffede",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "3bb5846ae5f0f631",
+        "type": "ui_group",
+        "name": "Stats",
+        "tab": "b4ffd550631ffede",
+        "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "65d0453cb44baddf",
+        "type": "ui_tab",
+        "name": "Monthly Calory Comsuption",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "bf0114a868da5336",
+        "type": "ui_group",
+        "name": "Activity",
+        "tab": "b4ffd550631ffede",
+        "order": 4,
         "disp": true,
         "width": "6",
         "collapse": false,
@@ -499,116 +548,6 @@
         ]
     },
     {
-        "id": "56f0d732cba553d3",
-        "type": "ui_dropdown",
-        "z": "74c32751e4a3fe28",
-        "name": "",
-        "label": "timeOption",
-        "tooltip": "",
-        "place": "Select option",
-        "group": "c5639eabb517a2cc",
-        "order": 2,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "multiple": false,
-        "options": [
-            {
-                "label": "Day",
-                "value": "Day",
-                "type": "str"
-            },
-            {
-                "label": "Week",
-                "value": "Week",
-                "type": "str"
-            },
-            {
-                "label": "Month",
-                "value": "Month",
-                "type": "str"
-            }
-        ],
-        "payload": "",
-        "topic": "timeOption",
-        "topicType": "str",
-        "className": "",
-        "x": 310,
-        "y": 120,
-        "wires": [
-            [
-                "9b3fa8488848fbb1"
-            ]
-        ]
-    },
-    {
-        "id": "f47084c417922772",
-        "type": "debug",
-        "z": "74c32751e4a3fe28",
-        "name": "debug 9",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1500,
-        "y": 280,
-        "wires": []
-    },
-    {
-        "id": "16f8f76840c90071",
-        "type": "ui_date_picker",
-        "z": "74c32751e4a3fe28",
-        "name": "",
-        "label": "date",
-        "group": "c5639eabb517a2cc",
-        "order": 1,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "topic": "date",
-        "topicType": "str",
-        "className": "",
-        "x": 310,
-        "y": 420,
-        "wires": [
-            [
-                "9b3fa8488848fbb1"
-            ]
-        ]
-    },
-    {
-        "id": "9b3fa8488848fbb1",
-        "type": "join",
-        "z": "74c32751e4a3fe28",
-        "name": "",
-        "mode": "custom",
-        "build": "object",
-        "property": "payload",
-        "propertyType": "msg",
-        "key": "topic",
-        "joiner": "\\n",
-        "joinerType": "str",
-        "accumulate": false,
-        "timeout": "",
-        "count": "4",
-        "reduceRight": false,
-        "reduceExp": "",
-        "reduceInit": "",
-        "reduceInitType": "",
-        "reduceFixup": "",
-        "x": 470,
-        "y": 280,
-        "wires": [
-            [
-                "9262edaecaf71530"
-            ]
-        ]
-    },
-    {
         "id": "c0ac4c0e6be915ce",
         "type": "change",
         "z": "74c32751e4a3fe28",
@@ -627,7 +566,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 830,
+        "x": 430,
         "y": 280,
         "wires": [
             [
@@ -640,14 +579,14 @@
         "type": "function",
         "z": "74c32751e4a3fe28",
         "name": "function 5",
-        "func": "var initialUrl = \"http://app:8000/training/\";\nmsg.payload = initialUrl + msg.payload[\"date\"] + \"/\" + msg.payload[\"timeOption\"] + \"/\" + msg.payload[\"walking_thresh\"] + \"/\" + msg.payload[\"running_thresh\"];\nreturn msg;",
+        "func": "var initialUrl = \"http://app:8000/training/\";\nmsg.payload[\"date\"] = Date.parse(msg.payload[\"date\"]);\nmsg.payload = initialUrl + msg.payload[\"date\"] + \"/\" + msg.payload[\"timeOption\"] + \"/\" + msg.payload[\"walking_thresh\"] + \"/\" + msg.payload[\"running_thresh\"];\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 640,
+        "x": 280,
         "y": 280,
         "wires": [
             [
@@ -671,7 +610,7 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 1030,
+        "x": 590,
         "y": 280,
         "wires": [
             [
@@ -687,63 +626,440 @@
         "property": "payload",
         "action": "obj",
         "pretty": false,
-        "x": 1250,
+        "x": 730,
         "y": 280,
         "wires": [
             [
-                "f47084c417922772"
+                "c571a6efdd6b3120",
+                "5b2da49bae61163f"
             ]
         ]
     },
     {
-        "id": "0caf23aba3368474",
-        "type": "ui_text_input",
+        "id": "5d72276dc9b1ad85",
+        "type": "ui_form",
         "z": "74c32751e4a3fe28",
         "name": "",
-        "label": "Activity Threshold for Running",
+        "label": "",
+        "group": "80fd122905837740",
+        "order": 4,
+        "width": "0",
+        "height": "0",
+        "options": [
+            {
+                "label": "Activity Threshold for Running",
+                "value": "running_thresh",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Activity Threshold for Walking",
+                "value": "walking_thresh",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Date",
+                "value": "date",
+                "type": "date",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Time Option",
+                "value": "timeOption",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "running_thresh": "",
+            "walking_thresh": "",
+            "date": "",
+            "timeOption": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 150,
+        "y": 280,
+        "wires": [
+            [
+                "9262edaecaf71530"
+            ]
+        ]
+    },
+    {
+        "id": "ee415ceedb45251e",
+        "type": "ui_text",
+        "z": "74c32751e4a3fe28",
+        "group": "bf0114a868da5336",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Active:",
+        "format": "{{msg.payload.active}}",
+        "layout": "col-center",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1270,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "e8c1c3012e061df7",
+        "type": "ui_text",
+        "z": "74c32751e4a3fe28",
+        "group": "3bb5846ae5f0f631",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Cals. Burned Running:",
+        "format": "{{msg.payload.calories_burned_running}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1320,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "ae7bc0644185f04b",
+        "type": "ui_text",
+        "z": "74c32751e4a3fe28",
+        "group": "3bb5846ae5f0f631",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Cals. Burned Walking:",
+        "format": "{{msg.payload.calories_burned_walking}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1320,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "dc554daa526981c2",
+        "type": "ui_text",
+        "z": "74c32751e4a3fe28",
+        "group": "3bb5846ae5f0f631",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Dist. Running:",
+        "format": "{{msg.payload.distance_running}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1300,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "356788302218406d",
+        "type": "ui_text",
+        "z": "74c32751e4a3fe28",
+        "group": "3bb5846ae5f0f631",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Dist. Walking:",
+        "format": "{{msg.payload.distance_walking}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1300,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "b8b044ba437325b9",
+        "type": "ui_text",
+        "z": "74c32751e4a3fe28",
+        "group": "3bb5846ae5f0f631",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Time Running:",
+        "format": "{{msg.payload.time_running}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1300,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "930720c116a65f7a",
+        "type": "ui_text",
+        "z": "74c32751e4a3fe28",
+        "group": "3bb5846ae5f0f631",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Time Walking:",
+        "format": "{{msg.payload.time_walking}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1300,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "c571a6efdd6b3120",
+        "type": "function",
+        "z": "74c32751e4a3fe28",
+        "name": "function 6",
+        "func": "msg.payload[\"calories_burned_running\"] = msg.payload[\"calories_burned_running\"].toFixed(1);\nmsg.payload[\"calories_burned_walking\"] = msg.payload[\"calories_burned_walking\"].toFixed(1);\nmsg.payload[\"distance_walking\"] = msg.payload[\"distance_walking\"].toFixed(1) + \" km\";\nmsg.payload[\"distance_running\"] = msg.payload[\"distance_running\"].toFixed(1) + \" km\";\nmsg.payload[\"time_running\"] = (msg.payload[\"time_running\"] / 60).toFixed(1) + \" min\";\nmsg.payload[\"time_walking\"] = (msg.payload[\"time_walking\"] / 60).toFixed(1) + \" min\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 280,
+        "wires": [
+            [
+                "e8c1c3012e061df7",
+                "ae7bc0644185f04b",
+                "dc554daa526981c2",
+                "356788302218406d",
+                "b8b044ba437325b9",
+                "930720c116a65f7a",
+                "40a878c2f45fdb17"
+            ]
+        ]
+    },
+    {
+        "id": "5b2da49bae61163f",
+        "type": "debug",
+        "z": "74c32751e4a3fe28",
+        "name": "debug 11",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 980,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "40a878c2f45fdb17",
+        "type": "function",
+        "z": "74c32751e4a3fe28",
+        "name": "function 8",
+        "func": "if (msg.payload[\"active\"]) {\n    msg.payload[\"active\"] = \"Based on the selected thresholds, the user was active during this (inserir tempo).\";\n} else {\n    msg.payload[\"active\"] = \"Based on the selected thresholds, the user was not active during this (inserir tempo).\";\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1060,
+        "y": 160,
+        "wires": [
+            [
+                "ee415ceedb45251e"
+            ]
+        ]
+    },
+    {
+        "id": "a3bf43ae6d7222f1",
+        "type": "ui_chart",
+        "z": "dcd2cdbeda340bed",
+        "name": "",
+        "group": "c5639eabb517a2cc",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "label": "chart",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 490,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e418f53d4b426af9",
+        "type": "function",
+        "z": "dcd2cdbeda340bed",
+        "name": "function 7",
+        "func": "var url = \"http://app:8000/monthlyCalories/\" + msg.payload;\nmsg.payload = url;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 200,
+        "y": 220,
+        "wires": [
+            [
+                "ce899f0c514819c1"
+            ]
+        ]
+    },
+    {
+        "id": "78dd5a9c63216ef6",
+        "type": "ui_text_input",
+        "z": "dcd2cdbeda340bed",
+        "name": "",
+        "label": "Year:",
         "tooltip": "",
         "group": "c5639eabb517a2cc",
-        "order": 3,
+        "order": 1,
         "width": 0,
         "height": 0,
         "passthru": true,
         "mode": "number",
         "delay": "0",
-        "topic": "running_thresh",
+        "topic": "year",
         "sendOnBlur": true,
         "className": "",
         "topicType": "str",
-        "x": 170,
-        "y": 180,
+        "x": 70,
+        "y": 220,
         "wires": [
             [
-                "9b3fa8488848fbb1"
+                "e418f53d4b426af9"
             ]
         ]
     },
     {
-        "id": "8d221378be07d301",
-        "type": "ui_text_input",
-        "z": "74c32751e4a3fe28",
+        "id": "c3d16810bb2d20c6",
+        "type": "debug",
+        "z": "dcd2cdbeda340bed",
+        "name": "debug 12",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "ce899f0c514819c1",
+        "type": "change",
+        "z": "dcd2cdbeda340bed",
         "name": "",
-        "label": "Activity Threshold for Walking",
-        "tooltip": "",
-        "group": "c5639eabb517a2cc",
-        "order": 3,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "mode": "number",
-        "delay": "0",
-        "topic": "walking_thresh",
-        "sendOnBlur": true,
-        "className": "",
-        "topicType": "str",
-        "x": 170,
-        "y": 300,
+        "rules": [
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 350,
+        "y": 220,
         "wires": [
             [
-                "9b3fa8488848fbb1"
+                "b60736fa52a19bbf"
+            ]
+        ]
+    },
+    {
+        "id": "b60736fa52a19bbf",
+        "type": "http request",
+        "z": "dcd2cdbeda340bed",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 510,
+        "y": 220,
+        "wires": [
+            [
+                "c3d16810bb2d20c6"
             ]
         ]
     }
