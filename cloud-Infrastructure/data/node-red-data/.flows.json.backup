@@ -897,7 +897,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1080,
+        "x": 1060,
         "y": 160,
         "wires": [
             [

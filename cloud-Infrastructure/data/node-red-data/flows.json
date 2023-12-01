@@ -28,6 +28,7 @@
         "name": "IdC",
         "broker": "mosquitto",
         "port": "1883",
+        "tls": "f3e6f864726ad3a8",
         "clientid": "",
         "autoConnect": true,
         "usetls": false,
@@ -243,6 +244,20 @@
         "width": "6",
         "collapse": false,
         "className": ""
+    },
+    {
+        "id": "f3e6f864726ad3a8",
+        "type": "tls-config",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "client.crt",
+        "keyname": "client.key",
+        "caname": "ca.crt",
+        "servername": "",
+        "verifyservercert": false,
+        "alpnprotocol": ""
     },
     {
         "id": "85ee7547c83fb2fb",
