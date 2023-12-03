@@ -22,21 +22,20 @@ def health():
 @app.route('/predict', methods=['POST'])
 def predict():
     feature_dict = request.get_json()
-    if not feature_dict:
-        return {
-            'error': 'Body is empty.'
-        }, 500
+    # if not feature_dict:
+    #     return {
+    #         'error': 'Body is empty.'
+    #     }, 500
     
-    try:
-        data = []
-        model_name = feature_dict[0]['model']
-        model = joblib.load('model/' + model_name + '.dat.gz')
-        data.append(feature_dict[1])
-        response = get_model_response(data, model)
-    except ValueError as e:
-        return {'error': str(e).split('\n')[-1].strip()}, 500
-
-    return response, 200
+    # try:
+    #     data = []
+    #     model_name = feature_dict[0]['model']
+    #     model = joblib.load('model/' + model_name + '.dat.gz')
+    #     data.append(feature_dict[1])
+    #     response = get_model_response(data, model)
+    # except ValueError as e:
+    #     return {'error': str(e).split('\n')[-1].strip()}, 500
+    return feature_dict, 200
 
 @app.route('/training/<date>/<timeOption>/<walking_thresh>/<running_thresh>', methods=['GET'])
 def training(date, timeOption, walking_thresh, running_thresh):

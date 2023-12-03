@@ -15,6 +15,14 @@
         "env": []
     },
     {
+        "id": "408cd1853017203e",
+        "type": "tab",
+        "label": "Flow 3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "dcd2cdbeda340bed",
         "type": "tab",
         "label": "Flow 5",
@@ -919,6 +927,87 @@
                 "ee415ceedb45251e"
             ]
         ]
+    },
+    {
+        "id": "17656201813329c9",
+        "type": "mqtt in",
+        "z": "408cd1853017203e",
+        "name": "",
+        "topic": "idc/FC01",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "037aecdc6926ce9a",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 200,
+        "y": 300,
+        "wires": [
+            [
+                "059f7db5f88aef5b"
+            ]
+        ]
+    },
+    {
+        "id": "891498e376016aa1",
+        "type": "http request",
+        "z": "408cd1853017203e",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://app:8000/predict",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 570,
+        "y": 300,
+        "wires": [
+            [
+                "9a4ce744128ae3f3"
+            ]
+        ]
+    },
+    {
+        "id": "059f7db5f88aef5b",
+        "type": "function",
+        "z": "408cd1853017203e",
+        "name": "function 9",
+        "func": "let acceleration_x = msg.payload[0]\nlet acceleration_y = msg.payload[1]\nlet acceleration_z = msg.payload[2]\nlet gyro_x = msg.payload[3]\nlet gyro_y = msg.payload[4]\nlet gyro_z = msg.payload[5]\nlet date = msg.payload[6]\nlet time = msg.payload[7]\n\nmsg.payload = {\n    \"acceleration_x\": acceleration_x,\n    \"acceleration_y\": acceleration_y,\n    \"acceleration_z\": acceleration_z,\n    \"gyro_x\": gyro_x,\n    \"gyro_y\": gyro_y,\n    \"gyro_z\": gyro_z,\n    \"date\": date,\n    \"time\": time\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 300,
+        "wires": [
+            [
+                "891498e376016aa1"
+            ]
+        ]
+    },
+    {
+        "id": "9a4ce744128ae3f3",
+        "type": "debug",
+        "z": "408cd1853017203e",
+        "name": "debug 13",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
+        "y": 300,
+        "wires": []
     },
     {
         "id": "a3bf43ae6d7222f1",
