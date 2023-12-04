@@ -31,7 +31,6 @@ def predict():
     data = data.reshape(1, -1)
     model = joblib.load('model/classifier.dat.gz')
     response = model.predict(data)
-    print(type(response))
 
     connection = psycopg2.connect(
         database="project_db",
@@ -40,32 +39,21 @@ def predict():
         host="db"
     )
     cursor = connection.cursor()
-
+    
     insert_data_query = '''
     INSERT INTO activity 
     (timestamp_column, activity_type, acceleration_x, acceleration_y, acceleration_z, gyro_x, gyro_y, gyro_z)
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s);
     '''
-    date = datetime.strptime(dict['date'], "%d/%m/%y")
+    date = datetime.strptime(dict['date'], "%m/%d/%y")
     date = date.strftime("%m/%d/20%y")
-    timestamp = datetime.strptime(date + ' ' + dict['time'][:-4], '%m/%d/20%y %H:%M:%S:%f')
-    cursor.execute(insert_data_query, timestamp, int(response[0]), float(dict['acceleration_x']), float(dict['acceleration_y']), float(dict['acceleration_z']), float(dict['gyro_x']), float(dict['gyro_y']), float(dict['gyro_z']))
-    
-
-    # if not feature_dict:
-    #     return {
-    #         'error': 'Body is empty.'
-    #     }, 500
-    
-    # try:
-    #     data = []
-    #     model_name = feature_dict[0]['model']
-    #     model = joblib.load('model/' + model_name + '.dat.gz')
-    #     data.append(feature_dict[1])
-        # response = get_model_response(data, model)
-    # except ValueError as e:
-    #     return {'error': str(e).split('\n')[-1].strip()}, 500
-    return dict, 200
+    timestamp = datetime.strptime(date + ' ' + dict['time'], '%m/%d/20%y %H:%M:%S:%f')
+    cursor.execute(insert_data_query, (timestamp, int(response[0]), float(dict['acceleration_x']), float(dict['acceleration_y']), float(dict['acceleration_z']), float(dict['gyro_x']), float(dict['gyro_y']), float(dict['gyro_z'])))
+    connection.commit()
+    result = {
+        'activity': int(response[0])
+    }
+    return result, 200
 
 @app.route('/training/<date>/<timeOption>/<walking_thresh>/<running_thresh>', methods=['GET'])
 def training(date, timeOption, walking_thresh, running_thresh):
@@ -81,7 +69,7 @@ def training(date, timeOption, walking_thresh, running_thresh):
     timestamp_seconds = int(date) / 1000.0
     date_object = datetime.fromtimestamp(timestamp_seconds, tz=timezone.utc)
     date_object += timedelta(days=1)
-
+    
     #Execute the appropriate query, depending on whether the user wants to sort by day,
     #week or month
     if timeOption == "Day":

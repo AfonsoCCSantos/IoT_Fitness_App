@@ -193,7 +193,7 @@
     {
         "id": "c5639eabb517a2cc",
         "type": "ui_group",
-        "name": "Calories Burned per Month",
+        "name": "Current Activity",
         "tab": "65d0453cb44baddf",
         "order": 1,
         "disp": true,
@@ -237,7 +237,7 @@
     {
         "id": "65d0453cb44baddf",
         "type": "ui_tab",
-        "name": "Monthly Calory Comsuption",
+        "name": "Real-Time Activity",
         "icon": "dashboard",
         "disabled": false,
         "hidden": false
@@ -969,7 +969,7 @@
         "y": 300,
         "wires": [
             [
-                "9a4ce744128ae3f3"
+                "4a15f574deef4c87"
             ]
         ]
     },
@@ -994,7 +994,49 @@
         ]
     },
     {
-        "id": "9a4ce744128ae3f3",
+        "id": "645dd674121f0293",
+        "type": "ui_text",
+        "z": "408cd1853017203e",
+        "group": "c5639eabb517a2cc",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "You are currently ",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1030,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "4a15f574deef4c87",
+        "type": "function",
+        "z": "408cd1853017203e",
+        "name": "function 10",
+        "func": "if (msg.payload['activity'] == 1) {\n    msg.payload = 'Running';\n}\nmsg.payload = 'Walking';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 260,
+        "wires": [
+            [
+                "645dd674121f0293",
+                "cc1bafb412cefe82"
+            ]
+        ]
+    },
+    {
+        "id": "cc1bafb412cefe82",
         "type": "debug",
         "z": "408cd1853017203e",
         "name": "debug 13",
@@ -1005,8 +1047,8 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 780,
-        "y": 300,
+        "x": 960,
+        "y": 360,
         "wires": []
     },
     {
