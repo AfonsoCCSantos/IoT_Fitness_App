@@ -298,6 +298,17 @@
         "className": ""
     },
     {
+        "id": "c6500691975fe8ea",
+        "type": "ui_group",
+        "name": "Threshold Selection",
+        "tab": "b4ffd550631ffede",
+        "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
         "id": "85ee7547c83fb2fb",
         "type": "debug",
         "z": "f6f2187d.f17ca8",
@@ -632,7 +643,7 @@
         "type": "function",
         "z": "74c32751e4a3fe28",
         "name": "function 5",
-        "func": "var initialUrl = \"http://app:8000/training/\";\nmsg.payload[\"date\"] = Date.parse(msg.payload[\"date\"]);\nmsg.payload = initialUrl + msg.payload[\"date\"] + \"/\" + msg.payload[\"timeOption\"] + \"/\" + msg.payload[\"walking_thresh\"] + \"/\" + msg.payload[\"running_thresh\"];\nreturn msg;",
+        "func": "var initialUrl = \"http://app:8000/training/\";\nmsg.payload[\"date\"] = Date.parse(msg.payload[\"date\"]);\nmsg.payload = initialUrl + msg.payload[\"date\"] + \"/\" + msg.payload[\"timeOption\"];\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -700,20 +711,6 @@
         "height": "0",
         "options": [
             {
-                "label": "Activity Threshold for Running",
-                "value": "running_thresh",
-                "type": "number",
-                "required": true,
-                "rows": null
-            },
-            {
-                "label": "Activity Threshold for Walking",
-                "value": "walking_thresh",
-                "type": "number",
-                "required": true,
-                "rows": null
-            },
-            {
                 "label": "Date",
                 "value": "date",
                 "type": "date",
@@ -729,8 +726,6 @@
             }
         ],
         "formValue": {
-            "running_thresh": "",
-            "walking_thresh": "",
             "date": "",
             "timeOption": ""
         },
@@ -956,6 +951,93 @@
             [
                 "ee415ceedb45251e"
             ]
+        ]
+    },
+    {
+        "id": "4fe25aab6e013938",
+        "type": "ui_form",
+        "z": "74c32751e4a3fe28",
+        "name": "",
+        "label": "",
+        "group": "c6500691975fe8ea",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Activity Threshold for Running",
+                "value": "running_thresh",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Activity Threshold for Walking",
+                "value": "walking_thresh",
+                "type": "number",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "running_thresh": "",
+            "walking_thresh": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 150,
+        "y": 160,
+        "wires": [
+            [
+                "d1f6b97c299c2e6e"
+            ]
+        ]
+    },
+    {
+        "id": "d1f6b97c299c2e6e",
+        "type": "function",
+        "z": "74c32751e4a3fe28",
+        "name": "function 11",
+        "func": "msg.payload = {\n    \"running_thresh\": msg.payload['running_thresh'],\n    \"walking_thresh\": msg.payload['walking_thresh'],\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 160,
+        "wires": [
+            [
+                "0cb514435dab8ef2"
+            ]
+        ]
+    },
+    {
+        "id": "0cb514435dab8ef2",
+        "type": "http request",
+        "z": "74c32751e4a3fe28",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://app:8000/thresholdSelection",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 450,
+        "y": 160,
+        "wires": [
+            []
         ]
     },
     {

@@ -18,7 +18,23 @@ def health():
     """Return service health"""
     return 'ok'
 
-
+@app.route('/thresholdSelection', methods=['POST'])
+def thresholdSelection():
+    dict = request.get_json()
+    if not dict:
+        return {
+            'error': 'Body is empty.'
+        }, 500
+    walking_thresh_tmp = int(dict['walking_thresh'])
+    running_thresh_tmp = int(dict['running_thresh'])
+    if walking_thresh_tmp >= 0 and running_thresh_tmp >= 0:
+        with open('data/thresholds.txt', 'w') as file:
+            file.write(f'{walking_thresh_tmp},{running_thresh_tmp}')
+        return "Success", 200
+    else:
+        return {
+            'error': 'Thresholds should be positive.'
+        }, 400
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -56,15 +72,14 @@ def predict():
     }
     return result, 200
 
-@app.route('/training/<date>/<timeOption>/<walking_thresh>/<running_thresh>', methods=['GET'])
-def training(date, timeOption, walking_thresh, running_thresh):
+@app.route('/training/<date>/<timeOption>', methods=['GET'])
+def training(date, timeOption):
     connection = psycopg2.connect(
         database="project_db",
         user="group01",
         password="password",
         host="db"
     )
-    
     cursor = connection.cursor()
 
     timestamp_seconds = int(date) / 1000.0
@@ -164,17 +179,25 @@ def training(date, timeOption, walking_thresh, running_thresh):
     calories_burned_walking = (time_walked / 60) * calories_burned_walking_permin
     total_time_activity = time_run + time_walked
 
-    walking_thresh = int(walking_thresh)
-    running_thresh = int(running_thresh)
+    with open('data/thresholds.txt', 'r') as file:
+        line = file.readline()
+        thresholds = line.split(',')
+        if len(thresholds) >= 2:
+            walking_thresh_tmp = int(thresholds[0])
+            running_thresh_tmp = int(thresholds[1])
+        else:
+            walking_thresh_tmp = 0
+            running_thresh_tmp = 0
+
     if timeOption == "Week":
-        walking_thresh = walking_thresh * 7
-        running_thresh = running_thresh * 7
+        walking_thresh_tmp  = walking_thresh_tmp * 7
+        running_thresh_tmp = walking_thresh_tmp * 7
     elif timeOption == "Month":
-        walking_thresh = walking_thresh * 30
-        running_thresh = running_thresh * 30
+        walking_thresh_tmp  = walking_thresh_tmp * 30
+        running_thresh_tmp = walking_thresh_tmp * 30
     
     active = False
-    if time_run >= running_thresh and time_walked >= walking_thresh:
+    if time_run >= running_thresh_tmp and time_walked >= walking_thresh_tmp:
         active = True
 
     result_dict = {
