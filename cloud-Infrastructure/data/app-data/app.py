@@ -7,9 +7,14 @@ from flask import request
 import pandas as pd
 import joblib
 import psycopg2
+import pickle
 import numpy as np
 
 from datetime import datetime, timedelta, timezone
+
+with open('data/scaler.pkl', 'rb') as file:
+    scaler = pickle.load(file)
+model = joblib.load('model/classifier.dat.gz')
 
 app = Flask(__name__)
 
@@ -46,7 +51,7 @@ def predict():
     data = [float(dict['acceleration_x']), float(dict['acceleration_y']), float(dict['acceleration_z']), float(dict['gyro_x']), float(dict['gyro_y']), float(dict['gyro_z'])]
     data = np.array(data)
     data = data.reshape(1, -1)
-    model = joblib.load('model/classifier.dat.gz')
+    data = scaler.transform(data)
     response = model.predict(data)
 
     connection = psycopg2.connect(
