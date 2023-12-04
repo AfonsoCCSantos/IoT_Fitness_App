@@ -30,7 +30,7 @@ with open('online.data', 'r') as csvfile:
 
 try:
     while msg_count < len(msg):
-        time.sleep(1)
+        time.sleep(3)
         row = msg[msg_count]
         current_datetime = datetime.datetime.now()
         date_string = current_datetime.strftime("%m/%d/%y")

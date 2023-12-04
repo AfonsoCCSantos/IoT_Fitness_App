@@ -65,6 +65,9 @@ services:
     restart: always
     ports:
       - 8080:8080
+    networks:
+      idc-net:
+        ipv4_address: 172.100.10.18
 
 #
 # Add more containers

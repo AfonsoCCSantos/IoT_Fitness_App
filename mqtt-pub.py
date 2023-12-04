@@ -40,7 +40,7 @@ client.publish(test_topic, msg_test[0])
     
 try:
     while msg_count < len(msg):
-        time.sleep(1)
+        time.sleep(3)
         result = client.publish(topic, msg[msg_count])
         status = result[0]
         if status == 0:
