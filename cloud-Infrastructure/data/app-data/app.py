@@ -19,6 +19,7 @@ def health():
     return 'ok'
 
 
+
 @app.route('/predict', methods=['POST'])
 def predict():
     dict = request.get_json()
@@ -69,7 +70,7 @@ def training(date, timeOption, walking_thresh, running_thresh):
     timestamp_seconds = int(date) / 1000.0
     date_object = datetime.fromtimestamp(timestamp_seconds, tz=timezone.utc)
     date_object += timedelta(days=1)
-    
+
     #Execute the appropriate query, depending on whether the user wants to sort by day,
     #week or month
     if timeOption == "Day":

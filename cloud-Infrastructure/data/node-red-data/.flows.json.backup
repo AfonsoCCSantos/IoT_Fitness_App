@@ -205,7 +205,7 @@
         "id": "80fd122905837740",
         "type": "ui_group",
         "name": "Form",
-        "tab": "b4ffd550631ffede",
+        "tab": "11ab903301fc44ec",
         "order": 2,
         "disp": true,
         "width": "6",
@@ -266,6 +266,36 @@
         "servername": "",
         "verifyservercert": false,
         "alpnprotocol": ""
+    },
+    {
+        "id": "11ab903301fc44ec",
+        "type": "ui_tab",
+        "name": "Statistical Results",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "7a15f4a5eef94835",
+        "type": "ui_group",
+        "name": "Activity",
+        "tab": "11ab903301fc44ec",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "6e2d8df2c396bf03",
+        "type": "ui_group",
+        "name": "Stats",
+        "tab": "11ab903301fc44ec",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
     },
     {
         "id": "85ee7547c83fb2fb",
@@ -723,7 +753,7 @@
         "id": "ee415ceedb45251e",
         "type": "ui_text",
         "z": "74c32751e4a3fe28",
-        "group": "bf0114a868da5336",
+        "group": "7a15f4a5eef94835",
         "order": 0,
         "width": 0,
         "height": 0,
@@ -744,7 +774,7 @@
         "id": "e8c1c3012e061df7",
         "type": "ui_text",
         "z": "74c32751e4a3fe28",
-        "group": "3bb5846ae5f0f631",
+        "group": "6e2d8df2c396bf03",
         "order": 0,
         "width": 0,
         "height": 0,
@@ -765,7 +795,7 @@
         "id": "ae7bc0644185f04b",
         "type": "ui_text",
         "z": "74c32751e4a3fe28",
-        "group": "3bb5846ae5f0f631",
+        "group": "6e2d8df2c396bf03",
         "order": 1,
         "width": 0,
         "height": 0,
@@ -786,7 +816,7 @@
         "id": "dc554daa526981c2",
         "type": "ui_text",
         "z": "74c32751e4a3fe28",
-        "group": "3bb5846ae5f0f631",
+        "group": "6e2d8df2c396bf03",
         "order": 3,
         "width": 0,
         "height": 0,
@@ -807,7 +837,7 @@
         "id": "356788302218406d",
         "type": "ui_text",
         "z": "74c32751e4a3fe28",
-        "group": "3bb5846ae5f0f631",
+        "group": "6e2d8df2c396bf03",
         "order": 4,
         "width": 0,
         "height": 0,
@@ -828,7 +858,7 @@
         "id": "b8b044ba437325b9",
         "type": "ui_text",
         "z": "74c32751e4a3fe28",
-        "group": "3bb5846ae5f0f631",
+        "group": "6e2d8df2c396bf03",
         "order": 0,
         "width": 0,
         "height": 0,
@@ -849,7 +879,7 @@
         "id": "930720c116a65f7a",
         "type": "ui_text",
         "z": "74c32751e4a3fe28",
-        "group": "3bb5846ae5f0f631",
+        "group": "6e2d8df2c396bf03",
         "order": 6,
         "width": 0,
         "height": 0,
@@ -1030,8 +1060,7 @@
         "y": 260,
         "wires": [
             [
-                "645dd674121f0293",
-                "cc1bafb412cefe82"
+                "645dd674121f0293"
             ]
         ]
     },
