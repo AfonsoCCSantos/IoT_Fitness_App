@@ -9,6 +9,7 @@ import joblib
 import psycopg2
 import pickle
 import numpy as np
+import os
 
 from datetime import datetime, timedelta, timezone
 
@@ -22,24 +23,6 @@ app = Flask(__name__)
 def health():
     """Return service health"""
     return 'ok'
-
-# @app.route('/thresholdSelection', methods=['POST'])
-# def thresholdSelection():
-#     dict = request.get_json()
-#     if not dict:
-#         return {
-#             'error': 'Body is empty.'
-#         }, 500
-#     walking_thresh_tmp = int(dict['walking_thresh'])
-#     running_thresh_tmp = int(dict['running_thresh'])
-#     if walking_thresh_tmp >= 0 and running_thresh_tmp >= 0:
-#         with open('data/thresholds.txt', 'w') as file:
-#             file.write(f'{walking_thresh_tmp},{running_thresh_tmp}')
-#         return "Success", 200
-#     else:
-#         return {
-#             'error': 'Thresholds should be positive.'
-#         }, 400
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -67,13 +50,62 @@ def predict():
     (timestamp_column, activity_type, acceleration_x, acceleration_y, acceleration_z, gyro_x, gyro_y, gyro_z)
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s);
     '''
+
     date = datetime.strptime(dict['date'], "%m/%d/%y")
     date = date.strftime("%m/%d/20%y")
     timestamp = datetime.strptime(date + ' ' + dict['time'], '%m/%d/20%y %H:%M:%S:%f')
     cursor.execute(insert_data_query, (timestamp, int(response[0]), float(dict['acceleration_x']), float(dict['acceleration_y']), float(dict['acceleration_z']), float(dict['gyro_x']), float(dict['gyro_y']), float(dict['gyro_z'])))
     connection.commit()
+
+    if response == 0:
+        response = 'walking'
+    else:
+        response = 'running'
+
+    if not os.path.exists('data/activity.txt'):
+        with open('data/activity.txt', 'w') as file:
+            #file = startOfrun/walk,typeOfActivity,dist_walk,dist_run,cal_run,cal_walk,time_run,time_walk
+            file.write(f'{0},{0},{0},{0},{0},{0}')
+        result = {
+            "distance_walking": 0,
+            "distance_running": 0,
+            "calories_burned_running": 0,
+            "calories_burned_walking": 0,
+            "time_running": 0,
+            "time_walking": 0
+        }
+        return result, 200
+    else:
+        with open('data/activity.txt', 'r+') as file:
+            line = file.readline()
+            data = line.split(',')
+            #Assuming the user is a male 20-29yo, 1.80m, 75kg
+            #Assuming the user is a male 20-29yo, 1.80m, 75kg
+            #We know that we receive new data every 1 second
+            distance_walked = int(data[0])
+            distance_run = int(data[1])
+            calories_burned_running = int(data[2])
+            calories_burned_walking = int(data[3])
+            time_running = int(data[4])
+            time_walking = int(data[5])
+            if data[1] == "walking":
+                distance_walked_tmp = (1.36 / 1000)
+                calories_burned_walking_permin = 0.035 * 75 + ((1.36**2) / 1.80) * 0.029 * 75
+                calories_burned_walking_tmp = (1 / 60) * calories_burned_walking_permin
+                calories_burned_walking += calories_burned_walking_tmp
+                distance_walked += distance_walked_tmp
+                time_walking += 1
+            else:
+                distance_run_tmp = (1.36 * 2) / 1000 #distance in kms
+                calories_burned_running_permin = 0.035 * 75 + ((2.72**2) / 1.80) * 0.029 * 75
+                calories_burned_running_tmp = (1 / 60) * calories_burned_running_permin
+                calories_burned_running += calories_burned_running_tmp
+                distance_run += distance_run_tmp
+                time_running += 1
+            file.write(f'{distance_walked},{distance_run},{calories_burned_running},{calories_burned_walking},{time_running},{time_walking}')
+            #falta enviar aqui o result
     result = {
-        'activity': int(response[0])
+        'activity': response
     }
     return result, 200
 
@@ -196,23 +228,6 @@ def training(date, timeOption, running_thresh, walking_thresh):
     calories_burned_walking = (time_walked / 60) * calories_burned_walking_permin
     total_time_activity = time_run + time_walked
 
-    # with open('data/thresholds.txt', 'r') as file:
-    #     line = file.readline()
-    #     thresholds = line.split(',')
-    #     if len(thresholds) >= 2:
-    #         walking_thresh_tmp = int(thresholds[0])
-    #         running_thresh_tmp = int(thresholds[1])
-    #     else:
-    #         walking_thresh_tmp = 0
-    #         running_thresh_tmp = 0
-    
-    # if timeOption == "Week":
-    #     walking_thresh_tmp  = walking_thresh_tmp * 7
-    #     running_thresh_tmp = walking_thresh_tmp * 7
-    # elif timeOption == "Month":
-    #     walking_thresh_tmp  = walking_thresh_tmp * 30
-    #     running_thresh_tmp = walking_thresh_tmp * 30
-
     if timeOption == "Week":
         walking_thresh  = walking_thresh * 7
         running_thresh = running_thresh * 7
@@ -223,7 +238,7 @@ def training(date, timeOption, running_thresh, walking_thresh):
     active = False
     if time_run >= int(running_thresh) and time_walked >= int(walking_thresh):
         active = True
-    
+
     result_dict = {
         "distance_walking": distance_walked,
         "distance_running": distance_run,

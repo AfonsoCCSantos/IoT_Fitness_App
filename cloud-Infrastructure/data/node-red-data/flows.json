@@ -1021,7 +1021,7 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 200,
+        "x": 120,
         "y": 300,
         "wires": [
             [
@@ -1045,12 +1045,11 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 570,
+        "x": 410,
         "y": 300,
         "wires": [
             [
-                "4a15f574deef4c87",
-                "cc1bafb412cefe82"
+                "53e48467aef2ecee"
             ]
         ]
     },
@@ -1066,7 +1065,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 380,
+        "x": 260,
         "y": 300,
         "wires": [
             [
@@ -1084,36 +1083,16 @@
         "height": 0,
         "name": "",
         "label": "You are currently ",
-        "format": "{{msg.payload}}",
+        "format": "{{msg.payload.activity}}",
         "layout": "row-left",
         "className": "",
         "style": false,
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 1030,
-        "y": 200,
+        "x": 770,
+        "y": 80,
         "wires": []
-    },
-    {
-        "id": "4a15f574deef4c87",
-        "type": "function",
-        "z": "408cd1853017203e",
-        "name": "function 10",
-        "func": "if (msg.payload['activity'] == 1) {\n    msg.payload = 'Running';\n}\nmsg.payload = 'Walking';\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 790,
-        "y": 260,
-        "wires": [
-            [
-                "645dd674121f0293"
-            ]
-        ]
     },
     {
         "id": "cc1bafb412cefe82",
@@ -1127,8 +1106,25 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 960,
-        "y": 360,
+        "x": 720,
+        "y": 400,
         "wires": []
+    },
+    {
+        "id": "53e48467aef2ecee",
+        "type": "json",
+        "z": "408cd1853017203e",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 550,
+        "y": 300,
+        "wires": [
+            [
+                "cc1bafb412cefe82",
+                "645dd674121f0293"
+            ]
+        ]
     }
 ]
