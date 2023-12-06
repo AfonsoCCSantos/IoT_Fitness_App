@@ -23,23 +23,23 @@ def health():
     """Return service health"""
     return 'ok'
 
-@app.route('/thresholdSelection', methods=['POST'])
-def thresholdSelection():
-    dict = request.get_json()
-    if not dict:
-        return {
-            'error': 'Body is empty.'
-        }, 500
-    walking_thresh_tmp = int(dict['walking_thresh'])
-    running_thresh_tmp = int(dict['running_thresh'])
-    if walking_thresh_tmp >= 0 and running_thresh_tmp >= 0:
-        with open('data/thresholds.txt', 'w') as file:
-            file.write(f'{walking_thresh_tmp},{running_thresh_tmp}')
-        return "Success", 200
-    else:
-        return {
-            'error': 'Thresholds should be positive.'
-        }, 400
+# @app.route('/thresholdSelection', methods=['POST'])
+# def thresholdSelection():
+#     dict = request.get_json()
+#     if not dict:
+#         return {
+#             'error': 'Body is empty.'
+#         }, 500
+#     walking_thresh_tmp = int(dict['walking_thresh'])
+#     running_thresh_tmp = int(dict['running_thresh'])
+#     if walking_thresh_tmp >= 0 and running_thresh_tmp >= 0:
+#         with open('data/thresholds.txt', 'w') as file:
+#             file.write(f'{walking_thresh_tmp},{running_thresh_tmp}')
+#         return "Success", 200
+#     else:
+#         return {
+#             'error': 'Thresholds should be positive.'
+#         }, 400
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -77,8 +77,8 @@ def predict():
     }
     return result, 200
 
-@app.route('/training/<date>/<timeOption>', methods=['GET'])
-def training(date, timeOption):
+@app.route('/training/<date>/<timeOption>/<running_thresh>/<walking_thresh>', methods=['GET'])
+def training(date, timeOption, running_thresh, walking_thresh):
     connection = psycopg2.connect(
         database="project_db",
         user="group01",
@@ -93,7 +93,8 @@ def training(date, timeOption):
 
     #Execute the appropriate query, depending on whether the user wants to sort by day,
     #week or month
-    if timeOption == "Day":
+    timeOption = timeOption.lower()
+    if timeOption == "day":
         formatted_target_date = date_object.strftime('%Y-%m-%d')
         sql_query = """
             SELECT *
@@ -101,7 +102,7 @@ def training(date, timeOption):
             WHERE DATE(timestamp_column) = %s
         """
         cursor.execute(sql_query, (formatted_target_date,))
-    elif timeOption == "Week":
+    elif timeOption == "week":
         target_year, target_week, _ = date_object.isocalendar()
         sql_query = """
             SELECT *
@@ -110,7 +111,7 @@ def training(date, timeOption):
             AND EXTRACT(WEEK FROM timestamp_column) = %s
         """
         cursor.execute(sql_query, (target_year, target_week,))
-    elif timeOption == "Month":
+    elif timeOption == "month":
         target_year = date_object.year
         target_month = date_object.month
         sql_query = """
@@ -125,7 +126,18 @@ def training(date, timeOption):
     if len(rows) == 0:
         cursor.close()
         connection.close()
-        return ""
+        result_dict = {
+            "distance_walking": 0,
+            "distance_running": 0,
+            "calories_burned_running": 0,
+            "calories_burned_walking": 0,
+            "time_running": 0,
+            "time_walking": 0,
+            "total_time_activity": 0,
+            "active": False,
+            "timeOption": timeOption
+        }
+        return result_dict, 200
     
     cursor.close()
     connection.close()
@@ -184,27 +196,34 @@ def training(date, timeOption):
     calories_burned_walking = (time_walked / 60) * calories_burned_walking_permin
     total_time_activity = time_run + time_walked
 
-    with open('data/thresholds.txt', 'r') as file:
-        line = file.readline()
-        thresholds = line.split(',')
-        if len(thresholds) >= 2:
-            walking_thresh_tmp = int(thresholds[0])
-            running_thresh_tmp = int(thresholds[1])
-        else:
-            walking_thresh_tmp = 0
-            running_thresh_tmp = 0
+    # with open('data/thresholds.txt', 'r') as file:
+    #     line = file.readline()
+    #     thresholds = line.split(',')
+    #     if len(thresholds) >= 2:
+    #         walking_thresh_tmp = int(thresholds[0])
+    #         running_thresh_tmp = int(thresholds[1])
+    #     else:
+    #         walking_thresh_tmp = 0
+    #         running_thresh_tmp = 0
+    
+    # if timeOption == "Week":
+    #     walking_thresh_tmp  = walking_thresh_tmp * 7
+    #     running_thresh_tmp = walking_thresh_tmp * 7
+    # elif timeOption == "Month":
+    #     walking_thresh_tmp  = walking_thresh_tmp * 30
+    #     running_thresh_tmp = walking_thresh_tmp * 30
 
     if timeOption == "Week":
-        walking_thresh_tmp  = walking_thresh_tmp * 7
-        running_thresh_tmp = walking_thresh_tmp * 7
+        walking_thresh  = walking_thresh * 7
+        running_thresh = running_thresh * 7
     elif timeOption == "Month":
-        walking_thresh_tmp  = walking_thresh_tmp * 30
-        running_thresh_tmp = walking_thresh_tmp * 30
+        walking_thresh  = walking_thresh * 30
+        running_thresh = running_thresh * 30
     
     active = False
-    if time_run >= running_thresh_tmp and time_walked >= walking_thresh_tmp:
+    if time_run >= int(running_thresh) and time_walked >= int(walking_thresh):
         active = True
-
+    
     result_dict = {
         "distance_walking": distance_walked,
         "distance_running": distance_run,
@@ -213,7 +232,8 @@ def training(date, timeOption):
         "time_running": time_run,
         "time_walking": time_walked,
         "total_time_activity": total_time_activity,
-        "active": active
+        "active": active,
+        "timeOption": timeOption
     }
     return result_dict, 200
 

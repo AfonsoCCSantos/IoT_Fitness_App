@@ -23,14 +23,6 @@
         "env": []
     },
     {
-        "id": "dcd2cdbeda340bed",
-        "type": "tab",
-        "label": "Flow 5",
-        "disabled": true,
-        "info": "",
-        "env": []
-    },
-    {
         "id": "037aecdc6926ce9a",
         "type": "mqtt-broker",
         "name": "IdC",
@@ -88,7 +80,7 @@
     {
         "id": "b4ffd550631ffede",
         "type": "ui_tab",
-        "name": "Home",
+        "name": "Threshold Selector",
         "icon": "dashboard",
         "disabled": false,
         "hidden": false
@@ -643,7 +635,7 @@
         "type": "function",
         "z": "74c32751e4a3fe28",
         "name": "function 5",
-        "func": "var initialUrl = \"http://app:8000/training/\";\nmsg.payload[\"date\"] = Date.parse(msg.payload[\"date\"]);\nmsg.payload = initialUrl + msg.payload[\"date\"] + \"/\" + msg.payload[\"timeOption\"];\nreturn msg;",
+        "func": "var running_thresh = flow.get('running_thresh') || 0;\nvar walking_thresh = flow.get('walking_thresh') || 0;\nvar initialUrl = \"http://app:8000/training/\";\nmsg.payload[\"date\"] = Date.parse(msg.payload[\"date\"]);\nmsg.payload = initialUrl + msg.payload[\"date\"] + \"/\" + msg.payload[\"timeOption\"] + \"/\" + running_thresh + \"/\" + walking_thresh;\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -750,10 +742,10 @@
         "z": "74c32751e4a3fe28",
         "group": "7a15f4a5eef94835",
         "order": 0,
-        "width": 0,
-        "height": 0,
+        "width": "6",
+        "height": "1",
         "name": "",
-        "label": "Active:",
+        "label": "",
         "format": "{{msg.payload.active}}",
         "layout": "col-center",
         "className": "",
@@ -938,7 +930,7 @@
         "type": "function",
         "z": "74c32751e4a3fe28",
         "name": "function 8",
-        "func": "if (msg.payload[\"active\"]) {\n    msg.payload[\"active\"] = \"Based on the selected thresholds, the user was active during this (inserir tempo).\";\n} else {\n    msg.payload[\"active\"] = \"Based on the selected thresholds, the user was not active during this (inserir tempo).\";\n}\nreturn msg;",
+        "func": "if (msg.payload[\"active\"]) {\n    msg.payload[\"active\"] = \"Based on the selected thresholds, the user was active during this \" + msg.payload['timeOption'];\n} else {\n    msg.payload[\"active\"] = \"Based on the selected thresholds, the user was not active during this \" + msg.payload['timeOption'];\n}\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1003,7 +995,7 @@
         "type": "function",
         "z": "74c32751e4a3fe28",
         "name": "function 11",
-        "func": "msg.payload = {\n    \"running_thresh\": msg.payload['running_thresh'],\n    \"walking_thresh\": msg.payload['walking_thresh'],\n}\nreturn msg;",
+        "func": "flow.set('running_thresh', msg.payload['running_thresh']);\nflow.set('walking_thresh', msg.payload['walking_thresh']);\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1013,50 +1005,8 @@
         "x": 290,
         "y": 160,
         "wires": [
-            [
-                "0cb514435dab8ef2"
-            ]
+            []
         ]
-    },
-    {
-        "id": "0cb514435dab8ef2",
-        "type": "http request",
-        "z": "74c32751e4a3fe28",
-        "name": "",
-        "method": "POST",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "http://app:8000/thresholdSelection",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 450,
-        "y": 160,
-        "wires": [
-            [
-                "00a04a18cd4104bb"
-            ]
-        ]
-    },
-    {
-        "id": "00a04a18cd4104bb",
-        "type": "debug",
-        "z": "74c32751e4a3fe28",
-        "name": "debug 14",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 600,
-        "y": 160,
-        "wires": []
     },
     {
         "id": "17656201813329c9",
@@ -1180,163 +1130,5 @@
         "x": 960,
         "y": 360,
         "wires": []
-    },
-    {
-        "id": "a3bf43ae6d7222f1",
-        "type": "ui_chart",
-        "z": "dcd2cdbeda340bed",
-        "name": "",
-        "group": "c5639eabb517a2cc",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "label": "chart",
-        "chartType": "line",
-        "legend": "false",
-        "xformat": "HH:mm:ss",
-        "interpolate": "linear",
-        "nodata": "",
-        "dot": false,
-        "ymin": "",
-        "ymax": "",
-        "removeOlder": 1,
-        "removeOlderPoints": "",
-        "removeOlderUnit": "3600",
-        "cutout": 0,
-        "useOneColor": false,
-        "useUTC": false,
-        "colors": [
-            "#1f77b4",
-            "#aec7e8",
-            "#ff7f0e",
-            "#2ca02c",
-            "#98df8a",
-            "#d62728",
-            "#ff9896",
-            "#9467bd",
-            "#c5b0d5"
-        ],
-        "outputs": 1,
-        "useDifferentColor": false,
-        "className": "",
-        "x": 490,
-        "y": 80,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "e418f53d4b426af9",
-        "type": "function",
-        "z": "dcd2cdbeda340bed",
-        "name": "function 7",
-        "func": "var url = \"http://app:8000/monthlyCalories/\" + msg.payload;\nmsg.payload = url;\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 200,
-        "y": 220,
-        "wires": [
-            [
-                "ce899f0c514819c1"
-            ]
-        ]
-    },
-    {
-        "id": "78dd5a9c63216ef6",
-        "type": "ui_text_input",
-        "z": "dcd2cdbeda340bed",
-        "name": "",
-        "label": "Year:",
-        "tooltip": "",
-        "group": "c5639eabb517a2cc",
-        "order": 1,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "mode": "number",
-        "delay": "0",
-        "topic": "year",
-        "sendOnBlur": true,
-        "className": "",
-        "topicType": "str",
-        "x": 70,
-        "y": 220,
-        "wires": [
-            [
-                "e418f53d4b426af9"
-            ]
-        ]
-    },
-    {
-        "id": "c3d16810bb2d20c6",
-        "type": "debug",
-        "z": "dcd2cdbeda340bed",
-        "name": "debug 12",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 660,
-        "y": 220,
-        "wires": []
-    },
-    {
-        "id": "ce899f0c514819c1",
-        "type": "change",
-        "z": "dcd2cdbeda340bed",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "url",
-                "pt": "msg",
-                "to": "payload",
-                "tot": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 350,
-        "y": 220,
-        "wires": [
-            [
-                "b60736fa52a19bbf"
-            ]
-        ]
-    },
-    {
-        "id": "b60736fa52a19bbf",
-        "type": "http request",
-        "z": "dcd2cdbeda340bed",
-        "name": "",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 510,
-        "y": 220,
-        "wires": [
-            [
-                "c3d16810bb2d20c6"
-            ]
-        ]
     }
 ]
