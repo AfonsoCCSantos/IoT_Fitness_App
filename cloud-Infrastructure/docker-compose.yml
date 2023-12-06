@@ -30,6 +30,7 @@ services:
       - ./data/mosquitto-data/config:/mosquitto/config
       - ./data/mosquitto-data/data:/mosquitto/data
       - ./data/mosquitto-data/log:/mosquitto/log
+      - ./data/mosquitto-data/certs:/home/certs
     networks:
       idc-net:
         ipv4_address: 172.100.10.10

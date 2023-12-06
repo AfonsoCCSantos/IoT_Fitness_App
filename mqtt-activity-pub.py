@@ -6,7 +6,7 @@ import datetime
 import json
 
 broker_hostname = "127.0.0.1"
-port = 1883 
+port = 8883 
 
 def on_connect(client, userdata, flags, return_code):
     if return_code == 0:
@@ -16,6 +16,8 @@ def on_connect(client, userdata, flags, return_code):
 
 client = mqtt.Client("Client1")
 client.on_connect=on_connect
+client.tls_set(ca_certs="ca.crt",certfile="client.crt",keyfile="client.key")
+client.tls_insecure_set(True)
 client.connect(broker_hostname, port)
 client.loop_start()
 
