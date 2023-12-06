@@ -80,7 +80,7 @@
     {
         "id": "b4ffd550631ffede",
         "type": "ui_tab",
-        "name": "Threshold Selector",
+        "name": "Real-Time Activity",
         "icon": "dashboard",
         "disabled": false,
         "hidden": false
@@ -183,17 +183,6 @@
         }
     },
     {
-        "id": "c5639eabb517a2cc",
-        "type": "ui_group",
-        "name": "Current Activity",
-        "tab": "65d0453cb44baddf",
-        "order": 1,
-        "disp": true,
-        "width": "6",
-        "collapse": false,
-        "className": ""
-    },
-    {
         "id": "80fd122905837740",
         "type": "ui_group",
         "name": "Form",
@@ -229,7 +218,7 @@
     {
         "id": "65d0453cb44baddf",
         "type": "ui_tab",
-        "name": "Real-Time Activity",
+        "name": "Profile",
         "icon": "dashboard",
         "disabled": false,
         "hidden": false
@@ -293,12 +282,64 @@
         "id": "c6500691975fe8ea",
         "type": "ui_group",
         "name": "Threshold Selection",
-        "tab": "b4ffd550631ffede",
+        "tab": "b7b9c7092018897e",
         "order": 4,
         "disp": true,
         "width": "6",
         "collapse": false,
         "className": ""
+    },
+    {
+        "id": "b07533ee5ab6edea",
+        "type": "ui_group",
+        "name": "Real-Time Activity",
+        "tab": "b4ffd550631ffede",
+        "order": 5,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "35e9a16d653917e5",
+        "type": "ui_group",
+        "name": "Profile Selector",
+        "tab": "65d0453cb44baddf",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "923aa952dc2fd29c",
+        "type": "ui_group",
+        "name": "Real-Time Activity",
+        "tab": "b4ffd550631ffede",
+        "order": 6,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "ec0d249370928a5d",
+        "type": "ui_group",
+        "name": "Current Activity",
+        "tab": "b4ffd550631ffede",
+        "order": 7,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "b7b9c7092018897e",
+        "type": "ui_tab",
+        "name": "Threshold Selector",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
     },
     {
         "id": "85ee7547c83fb2fb",
@@ -635,7 +676,7 @@
         "type": "function",
         "z": "74c32751e4a3fe28",
         "name": "function 5",
-        "func": "var running_thresh = flow.get('running_thresh') || 0;\nvar walking_thresh = flow.get('walking_thresh') || 0;\nvar initialUrl = \"http://app:8000/training/\";\nmsg.payload[\"date\"] = Date.parse(msg.payload[\"date\"]);\nmsg.payload = initialUrl + msg.payload[\"date\"] + \"/\" + msg.payload[\"timeOption\"] + \"/\" + running_thresh + \"/\" + walking_thresh;\nreturn msg;",
+        "func": "var running_thresh = flow.get('running_thresh') || 0;\nvar walking_thresh = flow.get('walking_thresh') || 0;\nvar age = flow.get('age', msg.payload['age']) || 21;\nvar height = flow.get('height', msg.payload['height']) || 1.80;\nvar gender = flow.get('gender', msg.payload['gender']) || 'male';\nvar weight = flow.get('weight', msg.payload['weight']) || 70;\nvar initialUrl = \"http://app:8000/training/\";\nmsg.payload[\"date\"] = Date.parse(msg.payload[\"date\"]);\nmsg.payload = initialUrl + msg.payload[\"date\"] + \"/\" + msg.payload[\"timeOption\"] + \"/\" + running_thresh + \"/\" + walking_thresh + \"/\" + age + \"/\" + gender + \"/\" + height + \"/\" + weight;\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -895,7 +936,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 860,
+        "x": 880,
         "y": 280,
         "wires": [
             [
@@ -1009,6 +1050,85 @@
         ]
     },
     {
+        "id": "f5487e02d3dd05dd",
+        "type": "ui_form",
+        "z": "74c32751e4a3fe28",
+        "name": "",
+        "label": "",
+        "group": "35e9a16d653917e5",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Age",
+                "value": "age",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Height (m)",
+                "value": "height",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Weight (kg)",
+                "value": "weight",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Gender",
+                "value": "gender",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "age": "",
+            "height": "",
+            "weight": "",
+            "gender": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 150,
+        "y": 380,
+        "wires": [
+            [
+                "4f5045886647314a"
+            ]
+        ]
+    },
+    {
+        "id": "4f5045886647314a",
+        "type": "function",
+        "z": "74c32751e4a3fe28",
+        "name": "function 13",
+        "func": "flow.set('age', msg.payload['age']);\nflow.set('height', msg.payload['height']);\nflow.set('gender', msg.payload['gender']);\nflow.set('weight', msg.payload['weight']);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
         "id": "17656201813329c9",
         "type": "mqtt in",
         "z": "408cd1853017203e",
@@ -1059,7 +1179,7 @@
         "type": "function",
         "z": "408cd1853017203e",
         "name": "function 9",
-        "func": "let acceleration_x = msg.payload[0]\nlet acceleration_y = msg.payload[1]\nlet acceleration_z = msg.payload[2]\nlet gyro_x = msg.payload[3]\nlet gyro_y = msg.payload[4]\nlet gyro_z = msg.payload[5]\nlet date = msg.payload[6]\nlet time = msg.payload[7]\n\nmsg.payload = {\n    \"acceleration_x\": acceleration_x,\n    \"acceleration_y\": acceleration_y,\n    \"acceleration_z\": acceleration_z,\n    \"gyro_x\": gyro_x,\n    \"gyro_y\": gyro_y,\n    \"gyro_z\": gyro_z,\n    \"date\": date,\n    \"time\": time\n}\n\nreturn msg;",
+        "func": "let acceleration_x = msg.payload[0]\nlet acceleration_y = msg.payload[1]\nlet acceleration_z = msg.payload[2]\nlet gyro_x = msg.payload[3]\nlet gyro_y = msg.payload[4]\nlet gyro_z = msg.payload[5]\nlet date = msg.payload[6]\nlet time = msg.payload[7]\n\n\nmsg.payload = {\n    \"acceleration_x\": acceleration_x,\n    \"acceleration_y\": acceleration_y,\n    \"acceleration_z\": acceleration_z,\n    \"gyro_x\": gyro_x,\n    \"gyro_y\": gyro_y,\n    \"gyro_z\": gyro_z,\n    \"date\": date,\n    \"time\": time\n}\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1078,7 +1198,7 @@
         "id": "645dd674121f0293",
         "type": "ui_text",
         "z": "408cd1853017203e",
-        "group": "c5639eabb517a2cc",
+        "group": "ec0d249370928a5d",
         "order": 2,
         "width": 0,
         "height": 0,

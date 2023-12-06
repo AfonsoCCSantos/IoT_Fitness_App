@@ -2411,3 +2411,48 @@
 1701889247: New client connected from 172.100.10.15:49992 as nodered_91be9de0203e18c8 (p2, c1, k60, u'localhost').
 1701889904: mosquitto version 2.0.18 terminating
 1701889904: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1701889930: mosquitto version 2.0.18 starting
+1701889930: Config loaded from /mosquitto/config/mosquitto.conf.
+1701889930: Opening ipv4 listen socket on port 8883.
+1701889930: mosquitto version 2.0.18 running
+1701889934: New connection from 172.100.10.15:35816 on port 8883.
+1701889934: New client connected from 172.100.10.15:35816 as nodered_c7425db6eaec087a (p2, c1, k60, u'localhost').
+1701890053: New connection from 172.100.10.1:36536 on port 8883.
+1701890053: New client connected from 172.100.10.1:36536 as Client1 (p2, c1, k60, u'localhost').
+1701890066: Client Client1 closed its connection.
+1701890179: Client nodered_c7425db6eaec087a disconnected.
+1701890179: mosquitto version 2.0.18 terminating
+1701890179: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1701890183: mosquitto version 2.0.18 starting
+1701890183: Config loaded from /mosquitto/config/mosquitto.conf.
+1701890183: Opening ipv4 listen socket on port 8883.
+1701890183: mosquitto version 2.0.18 running
+1701890188: New connection from 172.100.10.15:38172 on port 8883.
+1701890188: New client connected from 172.100.10.15:38172 as nodered_9c9e30a1fd020de3 (p2, c1, k60, u'localhost').
+1701890203: New connection from 172.100.10.1:48748 on port 8883.
+1701890203: New client connected from 172.100.10.1:48748 as Client1 (p2, c1, k60, u'localhost').
+1701890220: Client Client1 closed its connection.
+1701890531: Client nodered_9c9e30a1fd020de3 disconnected.
+1701890531: mosquitto version 2.0.18 terminating
+1701890531: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1701890571: mosquitto version 2.0.18 starting
+1701890571: Config loaded from /mosquitto/config/mosquitto.conf.
+1701890571: Opening ipv4 listen socket on port 8883.
+1701890571: mosquitto version 2.0.18 running
+1701890575: New connection from 172.100.10.15:60828 on port 8883.
+1701890575: New client connected from 172.100.10.15:60828 as nodered_1d1361e21d49fbef (p2, c1, k60, u'localhost').
+1701890708: Client nodered_1d1361e21d49fbef disconnected.
+1701890708: New connection from 172.100.10.15:56128 on port 8883.
+1701890708: New client connected from 172.100.10.15:56128 as nodered_7af8dd67c09c0558 (p2, c1, k60, u'localhost').
+1701890808: Client nodered_7af8dd67c09c0558 disconnected.
+1701890808: New connection from 172.100.10.15:39874 on port 8883.
+1701890808: New client connected from 172.100.10.15:39874 as nodered_326ed6d64b0b0cec (p2, c1, k60, u'localhost').
+1701890844: Client nodered_326ed6d64b0b0cec disconnected.
+1701890844: New connection from 172.100.10.15:52716 on port 8883.
+1701890844: New client connected from 172.100.10.15:52716 as nodered_8cb4067530fd345f (p2, c1, k60, u'localhost').
+1701890885: Client nodered_8cb4067530fd345f disconnected.
+1701890885: New connection from 172.100.10.15:50042 on port 8883.
+1701890885: New client connected from 172.100.10.15:50042 as nodered_0e11d680ea1df664 (p2, c1, k60, u'localhost').
+1701890891: Client nodered_0e11d680ea1df664 disconnected.
+1701890891: mosquitto version 2.0.18 terminating
+1701890891: Saving in-memory database to /mosquitto/data//mosquitto.db.

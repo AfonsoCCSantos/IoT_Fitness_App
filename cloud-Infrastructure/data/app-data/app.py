@@ -10,6 +10,7 @@ import psycopg2
 import pickle
 import numpy as np
 import os
+import functions
 
 from datetime import datetime, timedelta, timezone
 
@@ -36,6 +37,13 @@ def predict():
     data = data.reshape(1, -1)
     data = scaler.transform(data)
     response = model.predict(data)
+
+    age = int(dict['age'])
+    height = float(dict['height'])
+    gender = dict['gender']
+    weight = float(dict['weight'])
+    velocity = float(functions.determine_velocity(age, gender))
+    
 
     if response == 0:
         response = 'walking'
@@ -70,16 +78,16 @@ def predict():
             calories_burned_walking = float(data[3])
             time_running = int(data[4])
             time_walking = int(data[5])
-            if data[1] == "walking":
+            if response == "walking":
                 distance_walked_tmp = (1.36 / 1000)
-                calories_burned_walking_permin = 0.035 * 75 + ((1.36**2) / 1.80) * 0.029 * 75
+                calories_burned_walking_permin = 0.035 * weight + ((velocity**2) / height) * 0.029 * weight
                 calories_burned_walking_tmp = (1 / 60) * calories_burned_walking_permin
                 calories_burned_walking += calories_burned_walking_tmp
                 distance_walked += distance_walked_tmp
                 time_walking += 1
             else:
                 distance_run_tmp = (1.36 * 2) / 1000 #distance in kms
-                calories_burned_running_permin = 0.035 * 75 + ((2.72**2) / 1.80) * 0.029 * 75
+                calories_burned_running_permin = 0.035 * weight + (((velocity*2)**2) / height) * 0.029 * weight
                 calories_burned_running_tmp = (1 / 60) * calories_burned_running_permin
                 calories_burned_running += calories_burned_running_tmp
                 distance_run += distance_run_tmp
@@ -96,8 +104,8 @@ def predict():
             }
     return result, 200
 
-@app.route('/training/<date>/<timeOption>/<running_thresh>/<walking_thresh>', methods=['GET'])
-def training(date, timeOption, running_thresh, walking_thresh):
+@app.route('/training/<date>/<timeOption>/<running_thresh>/<walking_thresh>/<age>/<gender>/<height>/<weight>', methods=['GET'])
+def training(date, timeOption, running_thresh, walking_thresh, age, gender, height, weight):
     timestamp_seconds = int(date) / 1000.0
     date_object = datetime.fromtimestamp(timestamp_seconds, tz=timezone.utc)
     date_object += timedelta(days=1)
@@ -128,55 +136,7 @@ def training(date, timeOption, running_thresh, walking_thresh):
     response = requests.post(urlSelect, json=jsonData)
     rows = response.json()
 
-    # connection = psycopg2.connect(
-    #     database="project_db",
-    #     user="group01",
-    #     password="password",
-    #     host="db"
-    # )
-    # cursor = connection.cursor()
-
-    # timestamp_seconds = int(date) / 1000.0
-    # date_object = datetime.fromtimestamp(timestamp_seconds, tz=timezone.utc)
-    # date_object += timedelta(days=1)
-
-    # #Execute the appropriate query, depending on whether the user wants to sort by day,
-    # #week or month
-    # timeOption = timeOption.lower()
-    # if timeOption == "day":
-    #     formatted_target_date = date_object.strftime('%Y-%m-%d')
-    #     sql_query = """
-    #         SELECT *
-    #         FROM activity
-    #         WHERE DATE(timestamp_column) = %s
-    #     """
-    #     cursor.execute(sql_query, (formatted_target_date,))
-    # elif timeOption == "week":
-    #     target_year, target_week, _ = date_object.isocalendar()
-    #     sql_query = """
-    #         SELECT *
-    #         FROM activity
-    #         WHERE EXTRACT(YEAR FROM timestamp_column) = %s
-    #         AND EXTRACT(WEEK FROM timestamp_column) = %s
-    #     """
-    #     cursor.execute(sql_query, (target_year, target_week,))
-    # elif timeOption == "month":
-    #     target_year = date_object.year
-    #     target_month = date_object.month
-        # sql_query = """
-        #     SELECT *
-        #     FROM activity
-        #     WHERE EXTRACT(YEAR FROM timestamp_column) = %s
-        #     AND EXTRACT(MONTH FROM timestamp_column) = %s
-        # """
-        # cursor.execute(sql_query, (target_year, target_month,))
-
-
-
-    # rows = cursor.fetchall()
     if len(rows) == 0:
-        # cursor.close()
-        # connection.close()
         result_dict = {
             "distance_walking": 0,
             "distance_running": 0,
@@ -189,9 +149,6 @@ def training(date, timeOption, running_thresh, walking_thresh):
             "timeOption": timeOption
         }
         return result_dict, 200
-    
-    # cursor.close()
-    # connection.close()
     
     time_walked = 0
     time_run = 0
@@ -239,10 +196,11 @@ def training(date, timeOption, running_thresh, walking_thresh):
     else:
         time_run += final_row_seconds - seconds_start_of_activity
 
-    #Assuming the user is a male 20-29yo, 1.80m, 75kg
-    #Assuming the user is a male 20-29yo, 1.80m, 75kg
-    calories_burned_walking_permin = 0.035 * 75 + ((1.36**2) / 1.80) * 0.029 * 75
-    calories_burned_running_permin = 0.035 * 75 + ((2.72**2) / 1.80) * 0.029 * 75
+    weight = float(weight)
+    height = float(height)
+    velocity = float(functions.determine_velocity(age, gender))
+    calories_burned_walking_permin = 0.035 * weight + ((velocity**2) / height) * 0.029 * weight
+    calories_burned_running_permin = 0.035 * weight + (((velocity*2)**2) / height) * 0.029 * weight
     distance_walked = (1.36 * time_walked) / 1000 #distance in kms
     distance_run = (1.36 * 2 * time_run) / 1000 #distance in kms
 
