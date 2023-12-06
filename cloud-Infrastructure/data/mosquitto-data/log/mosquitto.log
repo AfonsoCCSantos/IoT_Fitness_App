@@ -2135,3 +2135,64 @@
 1701869308: Client nodered_d9dbcb67e37fbb85 disconnected.
 1701869308: mosquitto version 2.0.18 terminating
 1701869308: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1701869458: mosquitto version 2.0.18 starting
+1701869458: Config loaded from /mosquitto/config/mosquitto.conf.
+1701869458: Opening ipv4 listen socket on port 8883.
+1701869458: mosquitto version 2.0.18 running
+1701869576: New connection from 172.100.10.15:60668 on port 8883.
+1701869576: New client connected from 172.100.10.15:60668 as nodered_8ea4beaa760248ea (p2, c1, k60, u'localhost').
+1701869699: New connection from 172.100.10.1:59834 on port 8883.
+1701869699: New client connected from 172.100.10.1:59834 as Client1 (p2, c1, k60, u'localhost').
+1701869710: Client Client1 closed its connection.
+1701869862: New connection from 172.100.10.1:45980 on port 8883.
+1701869862: New client connected from 172.100.10.1:45980 as Client1 (p2, c1, k60, u'localhost').
+1701869875: Client Client1 closed its connection.
+1701870012: Client nodered_8ea4beaa760248ea disconnected.
+1701870012: mosquitto version 2.0.18 terminating
+1701870012: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1701871467: mosquitto version 2.0.18 starting
+1701871467: Config loaded from /mosquitto/config/mosquitto.conf.
+1701871467: Opening ipv4 listen socket on port 8883.
+1701871467: mosquitto version 2.0.18 running
+1701871476: New connection from 172.100.10.15:48408 on port 8883.
+1701871476: New client connected from 172.100.10.15:48408 as nodered_14e069b1d5db2d9f (p2, c1, k60, u'localhost').
+1701871496: Client nodered_14e069b1d5db2d9f disconnected.
+1701871496: mosquitto version 2.0.18 terminating
+1701871496: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1701871622: mosquitto version 2.0.18 starting
+1701871622: Config loaded from /mosquitto/config/mosquitto.conf.
+1701871622: Opening ipv4 listen socket on port 8883.
+1701871622: mosquitto version 2.0.18 running
+1701871631: New connection from 172.100.10.15:50912 on port 8883.
+1701871631: New client connected from 172.100.10.15:50912 as nodered_1d7205139f3ccbf8 (p2, c1, k60, u'localhost').
+1701871655: mosquitto version 2.0.18 terminating
+1701871655: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1701871762: mosquitto version 2.0.18 starting
+1701871762: Config loaded from /mosquitto/config/mosquitto.conf.
+1701871762: Opening ipv4 listen socket on port 8883.
+1701871762: mosquitto version 2.0.18 running
+1701871769: New connection from 172.100.10.15:35708 on port 8883.
+1701871769: New client connected from 172.100.10.15:35708 as nodered_0d9ec9265110b579 (p2, c1, k60, u'localhost').
+1701871789: Client nodered_0d9ec9265110b579 disconnected.
+1701871789: mosquitto version 2.0.18 terminating
+1701871789: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1701871793: mosquitto version 2.0.18 starting
+1701871793: Config loaded from /mosquitto/config/mosquitto.conf.
+1701871793: Opening ipv4 listen socket on port 8883.
+1701871793: mosquitto version 2.0.18 running
+1701871799: New connection from 172.100.10.15:49576 on port 8883.
+1701871799: New client connected from 172.100.10.15:49576 as nodered_0c1e7d5e1b198f77 (p2, c1, k60, u'localhost').
+1701871985: mosquitto version 2.0.18 terminating
+1701871985: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1701872011: mosquitto version 2.0.18 starting
+1701872011: Config loaded from /mosquitto/config/mosquitto.conf.
+1701872011: Opening ipv4 listen socket on port 8883.
+1701872011: mosquitto version 2.0.18 running
+1701872017: New connection from 172.100.10.15:44102 on port 8883.
+1701872017: New client connected from 172.100.10.15:44102 as nodered_f1193b6fb6885089 (p2, c1, k60, u'localhost').
+1701872029: New connection from 172.100.10.1:32802 on port 8883.
+1701872029: New client connected from 172.100.10.1:32802 as Client1 (p2, c1, k60, u'localhost').
+1701872039: Client Client1 closed its connection.
+1701872043: Client nodered_f1193b6fb6885089 disconnected.
+1701872043: mosquitto version 2.0.18 terminating
+1701872043: Saving in-memory database to /mosquitto/data//mosquitto.db.

@@ -61,6 +61,19 @@ services:
     volumes:
       - ./data/app-data:/app
 
+  dbprocessor:
+    build: ./data/database-processor/
+    container_name: databaseprocessor
+    ports:
+      - "8500:8500"
+    networks:
+      idc-net:
+        ipv4_address: 172.100.10.19
+    depends_on:
+      - db
+    volumes:
+      - ./data/database-processor:/app
+
   adminer:
     image: adminer
     restart: always
