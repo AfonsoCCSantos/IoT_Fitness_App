@@ -37,26 +37,6 @@ def predict():
     data = scaler.transform(data)
     response = model.predict(data)
 
-    connection = psycopg2.connect(
-        database="project_db",
-        user="group01",
-        password="password",
-        host="db"
-    )
-    cursor = connection.cursor()
-    
-    insert_data_query = '''
-    INSERT INTO activity 
-    (timestamp_column, activity_type, acceleration_x, acceleration_y, acceleration_z, gyro_x, gyro_y, gyro_z)
-    VALUES (%s, %s, %s, %s, %s, %s, %s, %s);
-    '''
-
-    date = datetime.strptime(dict['date'], "%m/%d/%y")
-    date = date.strftime("%m/%d/20%y")
-    timestamp = datetime.strptime(date + ' ' + dict['time'], '%m/%d/20%y %H:%M:%S:%f')
-    cursor.execute(insert_data_query, (timestamp, int(response[0]), float(dict['acceleration_x']), float(dict['acceleration_y']), float(dict['acceleration_z']), float(dict['gyro_x']), float(dict['gyro_y']), float(dict['gyro_z'])))
-    connection.commit()
-
     if response == 0:
         response = 'walking'
     else:

@@ -1021,11 +1021,12 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 120,
+        "x": 80,
         "y": 300,
         "wires": [
             [
-                "059f7db5f88aef5b"
+                "059f7db5f88aef5b",
+                "9dfdc3cbb2e2dacd"
             ]
         ]
     },
@@ -1045,11 +1046,11 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 410,
-        "y": 300,
+        "x": 450,
+        "y": 220,
         "wires": [
             [
-                "53e48467aef2ecee"
+                "eb710be5f3bc6000"
             ]
         ]
     },
@@ -1065,8 +1066,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 260,
-        "y": 300,
+        "x": 300,
+        "y": 220,
         "wires": [
             [
                 "891498e376016aa1"
@@ -1090,15 +1091,103 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 770,
-        "y": 80,
+        "x": 790,
+        "y": 100,
         "wires": []
     },
     {
-        "id": "cc1bafb412cefe82",
+        "id": "18d0b6a823e8bf86",
+        "type": "function",
+        "z": "408cd1853017203e",
+        "name": "function 12",
+        "func": "let acceleration_x = msg.payload[0][0]\nlet acceleration_y = msg.payload[0][1]\nlet acceleration_z = msg.payload[0][2]\nlet gyro_x = msg.payload[0][3]\nlet gyro_y = msg.payload[0][4]\nlet gyro_z = msg.payload[0][5]\nlet date = msg.payload[0][6]\nlet time = msg.payload[0][7]\nlet activity = msg.payload[1]['activity'] === 'walking' ? 0 : 1;\n\nconst dateParts = date.split('/');\nconst year = parseInt(dateParts[2], 10) + 2000;\nconst month = parseInt(dateParts[0], 10) - 1; // months are 0-based in JavaScript\nconst day = parseInt(dateParts[1], 10);\n\n// Parse time\nconst timeParts = time.split(':');\nconst hours = parseInt(timeParts[0], 10);\nconst minutes = parseInt(timeParts[1], 10);\nconst seconds = parseInt(timeParts[2], 10);\nconst milliseconds = parseInt(timeParts[3], 10);\n\nconst dateTime = new Date(year, month, day, hours, minutes, seconds, milliseconds);\n\nconst formattedDate = dateTime.toLocaleDateString('en-US', {\n    year: 'numeric',\n    month: '2-digit',\n    day: '2-digit',\n});\nconst formattedTime = dateTime.toLocaleTimeString('en-US', {\n    hour12: false,\n    hour: '2-digit',\n    minute: '2-digit',\n    second: '2-digit',\n    fractionalSecondDigits: 3,\n});\nconst formattedDateTime = `${formattedDate} ${formattedTime}`;\n\nmsg.payload = {\n    \"acceleration_x\": acceleration_x,\n    \"acceleration_y\": acceleration_y,\n    \"acceleration_z\": acceleration_z,\n    \"gyro_x\": gyro_x,\n    \"gyro_y\": gyro_y,\n    \"gyro_z\": gyro_z,\n    \"timestamp\": formattedDateTime,\n    \"activity_type\": activity\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 380,
+        "wires": [
+            [
+                "bac9adac49ac8795"
+            ]
+        ]
+    },
+    {
+        "id": "bac9adac49ac8795",
+        "type": "http request",
+        "z": "408cd1853017203e",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://databaseprocessor:8500/insert",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 950,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9dfdc3cbb2e2dacd",
+        "type": "join",
+        "z": "408cd1853017203e",
+        "name": "",
+        "mode": "custom",
+        "build": "array",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "2",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 650,
+        "y": 380,
+        "wires": [
+            [
+                "18d0b6a823e8bf86"
+            ]
+        ]
+    },
+    {
+        "id": "eb710be5f3bc6000",
+        "type": "json",
+        "z": "408cd1853017203e",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 570,
+        "y": 300,
+        "wires": [
+            [
+                "9dfdc3cbb2e2dacd",
+                "645dd674121f0293",
+                "88c784f2c3003f4c"
+            ]
+        ]
+    },
+    {
+        "id": "88c784f2c3003f4c",
         "type": "debug",
         "z": "408cd1853017203e",
-        "name": "debug 13",
+        "name": "debug 12",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -1106,25 +1195,8 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 720,
-        "y": 400,
+        "x": 820,
+        "y": 220,
         "wires": []
-    },
-    {
-        "id": "53e48467aef2ecee",
-        "type": "json",
-        "z": "408cd1853017203e",
-        "name": "",
-        "property": "payload",
-        "action": "obj",
-        "pretty": false,
-        "x": 550,
-        "y": 300,
-        "wires": [
-            [
-                "cc1bafb412cefe82",
-                "645dd674121f0293"
-            ]
-        ]
     }
 ]

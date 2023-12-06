@@ -18,9 +18,9 @@ def predict():
     '''
     timestamp = dict['timestamp']
     activity_type = dict['activity_type']
-    accelaration_x = dict['accelaration_x']
-    accelaration_y = dict['accelaration_y']
-    accelaration_z = dict['accelaration_z']
+    acceleration_x = dict['acceleration_x']
+    acceleration_y = dict['acceleration_y']
+    acceleration_z = dict['acceleration_z']
     gyro_x = dict['gyro_x']
     gyro_y = dict['gyro_y']
     gyro_z = dict['gyro_z']
@@ -32,6 +32,6 @@ def predict():
         host="db"
     )
     cursor = connection.cursor()
-    cursor.execute(insert_data_query, (timestamp, activity_type, accelaration_x, accelaration_y, accelaration_z, gyro_x, gyro_y, gyro_z))
+    cursor.execute(insert_data_query, (timestamp, activity_type, acceleration_x, acceleration_y, acceleration_z, gyro_x, gyro_y, gyro_z))
     connection.commit()
     return "Success", 200
