@@ -2,9 +2,9 @@
 import datetime
 
 # Third part imports
-from flask import Flask
-from flask import request
+from flask import Flask, request, jsonify
 import pandas as pd
+import requests
 import joblib
 import psycopg2
 import pickle
@@ -45,27 +45,29 @@ def predict():
     if not os.path.exists('data/activity.txt'):
         with open('data/activity.txt', 'w') as file:
             #file = startOfrun/walk,typeOfActivity,dist_walk,dist_run,cal_run,cal_walk,time_run,time_walk
-            file.write(f'{0},{0},{0},{0},{0},{0}')
+            file.write(f'{0}/{0}/{0}/{0}/{0}/{0}')
         result = {
             "distance_walking": 0,
             "distance_running": 0,
             "calories_burned_running": 0,
             "calories_burned_walking": 0,
             "time_running": 0,
-            "time_walking": 0
+            "time_walking": 0,
+            "activity": 0
         }
         return result, 200
     else:
-        with open('data/activity.txt', 'r+') as file:
+        with open('data/activity.txt', 'r') as file:
             line = file.readline()
-            data = line.split(',')
+            data = line.split('/')
+        with open('data/activity.txt', 'w') as file:
             #Assuming the user is a male 20-29yo, 1.80m, 75kg
             #Assuming the user is a male 20-29yo, 1.80m, 75kg
             #We know that we receive new data every 1 second
-            distance_walked = int(data[0])
-            distance_run = int(data[1])
-            calories_burned_running = int(data[2])
-            calories_burned_walking = int(data[3])
+            distance_walked = float(data[0])
+            distance_run = float(data[1])
+            calories_burned_running = float(data[2])
+            calories_burned_walking = float(data[3])
             time_running = int(data[4])
             time_walking = int(data[5])
             if data[1] == "walking":
@@ -82,62 +84,99 @@ def predict():
                 calories_burned_running += calories_burned_running_tmp
                 distance_run += distance_run_tmp
                 time_running += 1
-            file.write(f'{distance_walked},{distance_run},{calories_burned_running},{calories_burned_walking},{time_running},{time_walking}')
-            #falta enviar aqui o result
-    result = {
-        'activity': response
-    }
+            file.write(f'{distance_walked}/{distance_run}/{calories_burned_running}/{calories_burned_walking}/{time_running}/{time_walking}')
+            result = {
+                "distance_walking": distance_walked,
+                "distance_running": distance_run,
+                "calories_burned_running": calories_burned_running,
+                "calories_burned_walking": calories_burned_walking,
+                "time_running": time_running,
+                "time_walking": time_walking,
+                "activity": response
+            }
     return result, 200
 
 @app.route('/training/<date>/<timeOption>/<running_thresh>/<walking_thresh>', methods=['GET'])
 def training(date, timeOption, running_thresh, walking_thresh):
-    connection = psycopg2.connect(
-        database="project_db",
-        user="group01",
-        password="password",
-        host="db"
-    )
-    cursor = connection.cursor()
-
     timestamp_seconds = int(date) / 1000.0
     date_object = datetime.fromtimestamp(timestamp_seconds, tz=timezone.utc)
     date_object += timedelta(days=1)
+    urlSelect = 'http://databaseprocessor:8500/select'
 
-    #Execute the appropriate query, depending on whether the user wants to sort by day,
-    #week or month
     timeOption = timeOption.lower()
     if timeOption == "day":
         formatted_target_date = date_object.strftime('%Y-%m-%d')
-        sql_query = """
-            SELECT *
-            FROM activity
-            WHERE DATE(timestamp_column) = %s
-        """
-        cursor.execute(sql_query, (formatted_target_date,))
+        jsonData = {
+            "timeOption": timeOption,
+            "date": formatted_target_date
+        }
     elif timeOption == "week":
         target_year, target_week, _ = date_object.isocalendar()
-        sql_query = """
-            SELECT *
-            FROM activity
-            WHERE EXTRACT(YEAR FROM timestamp_column) = %s
-            AND EXTRACT(WEEK FROM timestamp_column) = %s
-        """
-        cursor.execute(sql_query, (target_year, target_week,))
+        jsonData = {
+            "timeOption": timeOption,
+            "target_year": target_year,
+            "target_week": target_week
+        }
     elif timeOption == "month":
         target_year = date_object.year
         target_month = date_object.month
-        sql_query = """
-            SELECT *
-            FROM activity
-            WHERE EXTRACT(YEAR FROM timestamp_column) = %s
-            AND EXTRACT(MONTH FROM timestamp_column) = %s
-        """
-        cursor.execute(sql_query, (target_year, target_month,))
+        jsonData = {
+            "timeOption": timeOption,
+            "target_year": target_year,
+            "target_month": target_month
+        }
+    response = requests.post(urlSelect, json=jsonData)
+    rows = response.json()
 
-    rows = cursor.fetchall()
+    # connection = psycopg2.connect(
+    #     database="project_db",
+    #     user="group01",
+    #     password="password",
+    #     host="db"
+    # )
+    # cursor = connection.cursor()
+
+    # timestamp_seconds = int(date) / 1000.0
+    # date_object = datetime.fromtimestamp(timestamp_seconds, tz=timezone.utc)
+    # date_object += timedelta(days=1)
+
+    # #Execute the appropriate query, depending on whether the user wants to sort by day,
+    # #week or month
+    # timeOption = timeOption.lower()
+    # if timeOption == "day":
+    #     formatted_target_date = date_object.strftime('%Y-%m-%d')
+    #     sql_query = """
+    #         SELECT *
+    #         FROM activity
+    #         WHERE DATE(timestamp_column) = %s
+    #     """
+    #     cursor.execute(sql_query, (formatted_target_date,))
+    # elif timeOption == "week":
+    #     target_year, target_week, _ = date_object.isocalendar()
+    #     sql_query = """
+    #         SELECT *
+    #         FROM activity
+    #         WHERE EXTRACT(YEAR FROM timestamp_column) = %s
+    #         AND EXTRACT(WEEK FROM timestamp_column) = %s
+    #     """
+    #     cursor.execute(sql_query, (target_year, target_week,))
+    # elif timeOption == "month":
+    #     target_year = date_object.year
+    #     target_month = date_object.month
+        # sql_query = """
+        #     SELECT *
+        #     FROM activity
+        #     WHERE EXTRACT(YEAR FROM timestamp_column) = %s
+        #     AND EXTRACT(MONTH FROM timestamp_column) = %s
+        # """
+        # cursor.execute(sql_query, (target_year, target_month,))
+
+
+
+    # rows = cursor.fetchall()
     if len(rows) == 0:
-        cursor.close()
-        connection.close()
+        # cursor.close()
+        # connection.close()
         result_dict = {
             "distance_walking": 0,
             "distance_running": 0,
@@ -151,15 +190,16 @@ def training(date, timeOption, running_thresh, walking_thresh):
         }
         return result_dict, 200
     
-    cursor.close()
-    connection.close()
+    # cursor.close()
+    # connection.close()
     
     time_walked = 0
     time_run = 0
 
     first_row_of_activity = rows[0]
     timestamp_datetime = first_row_of_activity[0] #0 is the timestamp column
-    seconds_start_of_activity = int(timestamp_datetime.timestamp())
+    parsed_date = datetime.strptime(timestamp_datetime, "%a, %d %b %Y %H:%M:%S GMT")
+    seconds_start_of_activity = int(parsed_date.timestamp())
 
     last_row = first_row_of_activity
     last_row_seconds = seconds_start_of_activity
@@ -168,7 +208,8 @@ def training(date, timeOption, running_thresh, walking_thresh):
 
     for row in rows:
         row_timestamp_datetime = row[0]
-        current_row_seconds = int(row_timestamp_datetime.timestamp())
+        parsed_date = datetime.strptime(row_timestamp_datetime, "%a, %d %b %Y %H:%M:%S GMT")
+        current_row_seconds = int(parsed_date.timestamp())
 
         if current_row_seconds - last_row_seconds >= 90:
             if int(last_row[1]) == 0:
@@ -190,7 +231,8 @@ def training(date, timeOption, running_thresh, walking_thresh):
     
     final_row = rows[-1]
     final_row_timestamp_datetime = final_row[0]
-    final_row_seconds = int(final_row_timestamp_datetime.timestamp())
+    parsed_date = datetime.strptime(final_row_timestamp_datetime, "%a, %d %b %Y %H:%M:%S GMT")
+    final_row_seconds = int(parsed_date.timestamp())
 
     if activity_type_value == 0:
         time_walked += final_row_seconds - seconds_start_of_activity
@@ -207,7 +249,7 @@ def training(date, timeOption, running_thresh, walking_thresh):
     calories_burned_running = (time_run / 60) * calories_burned_running_permin
     calories_burned_walking = (time_walked / 60) * calories_burned_walking_permin
     total_time_activity = time_run + time_walked
-
+    
     if timeOption == "Week":
         walking_thresh  = walking_thresh * 7
         running_thresh = running_thresh * 7

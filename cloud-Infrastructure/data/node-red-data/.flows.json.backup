@@ -1050,7 +1050,6 @@
         "y": 220,
         "wires": [
             [
-                "53e48467aef2ecee",
                 "eb710be5f3bc6000"
             ]
         ]
@@ -1095,23 +1094,6 @@
         "x": 790,
         "y": 100,
         "wires": []
-    },
-    {
-        "id": "53e48467aef2ecee",
-        "type": "json",
-        "z": "408cd1853017203e",
-        "name": "",
-        "property": "payload",
-        "action": "obj",
-        "pretty": false,
-        "x": 610,
-        "y": 220,
-        "wires": [
-            [
-                "645dd674121f0293",
-                "88c784f2c3003f4c"
-            ]
-        ]
     },
     {
         "id": "18d0b6a823e8bf86",
@@ -1195,7 +1177,9 @@
         "y": 300,
         "wires": [
             [
-                "9dfdc3cbb2e2dacd"
+                "9dfdc3cbb2e2dacd",
+                "645dd674121f0293",
+                "88c784f2c3003f4c"
             ]
         ]
     },
