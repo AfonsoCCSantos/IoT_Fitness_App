@@ -1,12 +1,5 @@
 [
     {
-        "id": "f6f2187d.f17ca8",
-        "type": "tab",
-        "label": "Flow 1",
-        "disabled": false,
-        "info": ""
-    },
-    {
         "id": "74c32751e4a3fe28",
         "type": "tab",
         "label": "Flow 2",
@@ -342,307 +335,37 @@
         "hidden": false
     },
     {
-        "id": "85ee7547c83fb2fb",
-        "type": "debug",
-        "z": "f6f2187d.f17ca8",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 640,
-        "y": 460,
-        "wires": []
+        "id": "4d028aceaf060778",
+        "type": "ui_group",
+        "name": "Calories Burned",
+        "tab": "b4ffd550631ffede",
+        "order": 7,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
     },
     {
-        "id": "966177e57dbd7d21",
-        "type": "mqtt in",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "topic": "idc/iris",
-        "qos": "0",
-        "datatype": "auto-detect",
-        "broker": "037aecdc6926ce9a",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 150,
-        "y": 640,
-        "wires": [
-            []
-        ]
+        "id": "d2a6ae1ef63bae43",
+        "type": "ui_group",
+        "name": "Calories Burned",
+        "tab": "b4ffd550631ffede",
+        "order": 8,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
     },
     {
-        "id": "b5f343a20278eea1",
-        "type": "http request",
-        "z": "f6f2187d.f17ca8",
-        "name": "Predict Service",
-        "method": "POST",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "http://app:8000/predict",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 420,
-        "y": 460,
-        "wires": [
-            [
-                "85ee7547c83fb2fb"
-            ]
-        ]
-    },
-    {
-        "id": "79f05988ab6ded28",
-        "type": "inject",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 140,
-        "y": 220,
-        "wires": [
-            [
-                "55d85d4957c06c5e"
-            ]
-        ]
-    },
-    {
-        "id": "305b9fa387c77222",
-        "type": "debug",
-        "z": "f6f2187d.f17ca8",
-        "name": "debug 3",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 640,
-        "y": 220,
-        "wires": []
-    },
-    {
-        "id": "55d85d4957c06c5e",
-        "type": "http request",
-        "z": "f6f2187d.f17ca8",
-        "name": "Health Service",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "http://app:8000/health",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 400,
-        "y": 220,
-        "wires": [
-            [
-                "305b9fa387c77222"
-            ]
-        ]
-    },
-    {
-        "id": "bd0817e58c32174a",
-        "type": "inject",
-        "z": "f6f2187d.f17ca8",
-        "name": "Iris-KNN",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "[{\"model\":\"iris-KNN\"},{\"SepalLengthCm\":5.9,\"SepalWidthCm\":3,\"PetalLengthCm\":5.1,\"PetalWidthCm\":1}]",
-        "payloadType": "json",
-        "x": 140,
-        "y": 580,
-        "wires": [
-            [
-                "b5f343a20278eea1"
-            ]
-        ]
-    },
-    {
-        "id": "15dc23581e715dea",
-        "type": "inject",
-        "z": "f6f2187d.f17ca8",
-        "name": "Iris-GNB",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "[{\"model\":\"iris-GNB\"},{\"SepalLengthCm\":5.9,\"SepalWidthCm\":3,\"PetalLengthCm\":5.1,\"PetalWidthCm\":1}]",
-        "payloadType": "json",
-        "x": 140,
-        "y": 520,
-        "wires": [
-            [
-                "b5f343a20278eea1"
-            ]
-        ]
-    },
-    {
-        "id": "1b4c1fc9240a787b",
-        "type": "inject",
-        "z": "f6f2187d.f17ca8",
-        "name": "Iris-SVC",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "[{\"model\":\"iris-SVC\"},{\"SepalLengthCm\":5.9,\"SepalWidthCm\":3,\"PetalLengthCm\":5.1,\"PetalWidthCm\":1}]",
-        "payloadType": "json",
-        "x": 140,
-        "y": 460,
-        "wires": [
-            [
-                "b5f343a20278eea1"
-            ]
-        ]
-    },
-    {
-        "id": "5d7fa6dbca76c986",
-        "type": "inject",
-        "z": "f6f2187d.f17ca8",
-        "name": "Iris-DT",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "[{\"model\":\"iris-DT\"},{\"SepalLengthCm\":5.9,\"SepalWidthCm\":3,\"PetalLengthCm\":5.1,\"PetalWidthCm\":1}]",
-        "payloadType": "json",
-        "x": 150,
-        "y": 400,
-        "wires": [
-            [
-                "b5f343a20278eea1"
-            ]
-        ]
-    },
-    {
-        "id": "fa76cd47cd404c07",
-        "type": "inject",
-        "z": "f6f2187d.f17ca8",
-        "name": "Iris-LDA",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "[{\"model\":\"iris-LDA\"},{\"SepalLengthCm\":5.9,\"SepalWidthCm\":3,\"PetalLengthCm\":5.1,\"PetalWidthCm\":1}]",
-        "payloadType": "json",
-        "x": 140,
-        "y": 280,
-        "wires": [
-            [
-                "b5f343a20278eea1"
-            ]
-        ]
-    },
-    {
-        "id": "e2c8d2430fd78714",
-        "type": "inject",
-        "z": "f6f2187d.f17ca8",
-        "name": "Iris-LR",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "[{\"model\":\"iris-LR\"},{\"SepalLengthCm\":5.9,\"SepalWidthCm\":3,\"PetalLengthCm\":5.1,\"PetalWidthCm\":1}]",
-        "payloadType": "json",
-        "x": 150,
-        "y": 340,
-        "wires": [
-            [
-                "b5f343a20278eea1"
-            ]
-        ]
+        "id": "22073025e5c66b1e",
+        "type": "ui_group",
+        "name": "Distances",
+        "tab": "b4ffd550631ffede",
+        "order": 9,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
     },
     {
         "id": "c0ac4c0e6be915ce",
@@ -1179,7 +902,7 @@
         "type": "function",
         "z": "408cd1853017203e",
         "name": "function 9",
-        "func": "let acceleration_x = msg.payload[0]\nlet acceleration_y = msg.payload[1]\nlet acceleration_z = msg.payload[2]\nlet gyro_x = msg.payload[3]\nlet gyro_y = msg.payload[4]\nlet gyro_z = msg.payload[5]\nlet date = msg.payload[6]\nlet time = msg.payload[7]\n\n\nmsg.payload = {\n    \"acceleration_x\": acceleration_x,\n    \"acceleration_y\": acceleration_y,\n    \"acceleration_z\": acceleration_z,\n    \"gyro_x\": gyro_x,\n    \"gyro_y\": gyro_y,\n    \"gyro_z\": gyro_z,\n    \"date\": date,\n    \"time\": time\n}\n\nreturn msg;",
+        "func": "let acceleration_x = msg.payload[0]\nlet acceleration_y = msg.payload[1]\nlet acceleration_z = msg.payload[2]\nlet gyro_x = msg.payload[3]\nlet gyro_y = msg.payload[4]\nlet gyro_z = msg.payload[5]\nlet date = msg.payload[6]\nlet time = msg.payload[7]\nlet age = flow.get('age', msg.payload['age']) || 21;\nlet height = flow.get('height', msg.payload['height']) || 1.80;\nlet gender = flow.get('gender', msg.payload['gender']) || 'male';\nlet weight = flow.get('weight', msg.payload['weight']) || 70;\n\nmsg.payload = {\n    \"acceleration_x\": acceleration_x,\n    \"acceleration_y\": acceleration_y,\n    \"acceleration_z\": acceleration_z,\n    \"gyro_x\": gyro_x,\n    \"gyro_y\": gyro_y,\n    \"gyro_z\": gyro_z,\n    \"date\": date,\n    \"time\": time,\n    \"age\": age,\n    \"height\": height,\n    \"gender\": gender,\n    \"weight\": weight\n}\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1211,8 +934,8 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 790,
-        "y": 100,
+        "x": 730,
+        "y": 80,
         "wires": []
     },
     {
@@ -1299,12 +1022,55 @@
             [
                 "9dfdc3cbb2e2dacd",
                 "645dd674121f0293",
-                "88c784f2c3003f4c"
+                "050b2bf6bdddfaa9",
+                "623c9d7ff5f8b5b2"
             ]
         ]
     },
     {
-        "id": "88c784f2c3003f4c",
+        "id": "82ab50b43cc83bbc",
+        "type": "ui_text",
+        "z": "408cd1853017203e",
+        "group": "d2a6ae1ef63bae43",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Calories Burned Walking:",
+        "format": "{{msg.payload.calories_burned_walking}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1130,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "828d1ddcb5c014a8",
+        "type": "ui_text",
+        "z": "408cd1853017203e",
+        "group": "d2a6ae1ef63bae43",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Calories Burned Running:",
+        "format": "{{msg.payload.calories_burned_running}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1130,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "050b2bf6bdddfaa9",
         "type": "debug",
         "z": "408cd1853017203e",
         "name": "debug 12",
@@ -1315,8 +1081,117 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 820,
-        "y": 220,
+        "x": 800,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "623c9d7ff5f8b5b2",
+        "type": "function",
+        "z": "408cd1853017203e",
+        "name": "function 14",
+        "func": "msg.payload[\"calories_burned_running\"] = msg.payload[\"calories_burned_running\"].toFixed(2);\nmsg.payload[\"calories_burned_walking\"] = msg.payload[\"calories_burned_walking\"].toFixed(2);\nmsg.payload[\"distance_walking\"] = msg.payload[\"distance_walking\"].toFixed(2) + \" km\";\nmsg.payload[\"distance_running\"] = msg.payload[\"distance_running\"].toFixed(2) + \" km\";\nmsg.payload[\"time_running\"] = (msg.payload[\"time_running\"] / 60).toFixed(2) + \" min\";\nmsg.payload[\"time_walking\"] = (msg.payload[\"time_walking\"] / 60).toFixed(2) + \" min\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 200,
+        "wires": [
+            [
+                "82ab50b43cc83bbc",
+                "828d1ddcb5c014a8",
+                "dadf8f19e66e842a",
+                "ab5cb95c37f5c28e",
+                "f65029a478b83e15",
+                "4f6ed6f5ec166ff7"
+            ]
+        ]
+    },
+    {
+        "id": "dadf8f19e66e842a",
+        "type": "ui_text",
+        "z": "408cd1853017203e",
+        "group": "22073025e5c66b1e",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Distance Run (m):",
+        "format": "{{msg.payload.distance_running}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1110,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "ab5cb95c37f5c28e",
+        "type": "ui_text",
+        "z": "408cd1853017203e",
+        "group": "22073025e5c66b1e",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Distance Walked (m):",
+        "format": "{{msg.payload.distance_walking}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1120,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "f65029a478b83e15",
+        "type": "ui_text",
+        "z": "408cd1853017203e",
+        "group": "80fd122905837740",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Time Running (min):",
+        "format": "{{msg.payload.time_running}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1120,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "4f6ed6f5ec166ff7",
+        "type": "ui_text",
+        "z": "408cd1853017203e",
+        "group": "80fd122905837740",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Time Walking (min):",
+        "format": "{{msg.payload.time_walking}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1110,
+        "y": 240,
         "wires": []
     }
 ]
