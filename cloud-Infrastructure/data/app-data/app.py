@@ -43,7 +43,6 @@ def predict():
     gender = dict['gender']
     weight = float(dict['weight'])
     velocity = float(functions.determine_velocity(age, gender))
-    
 
     if response == 0:
         response = 'walking'
@@ -52,7 +51,7 @@ def predict():
 
     if not os.path.exists('data/activity.txt'):
         with open('data/activity.txt', 'w') as file:
-            #file = startOfrun/walk,typeOfActivity,dist_walk,dist_run,cal_run,cal_walk,time_run,time_walk
+            #file = dist_walk/dist_run/cal_run/cal_walk/time_run/time_walk
             file.write(f'{0}/{0}/{0}/{0}/{0}/{0}')
         result = {
             "distance_walking": 0,
@@ -69,8 +68,6 @@ def predict():
             line = file.readline()
             data = line.split('/')
         with open('data/activity.txt', 'w') as file:
-            #Assuming the user is a male 20-29yo, 1.80m, 75kg
-            #Assuming the user is a male 20-29yo, 1.80m, 75kg
             #We know that we receive new data every 1 second
             distance_walked = float(data[0])
             distance_run = float(data[1])
@@ -79,14 +76,14 @@ def predict():
             time_running = int(data[4])
             time_walking = int(data[5])
             if response == "walking":
-                distance_walked_tmp = (1.36 / 1000)
+                distance_walked_tmp = (velocity / 1000)
                 calories_burned_walking_permin = 0.035 * weight + ((velocity**2) / height) * 0.029 * weight
                 calories_burned_walking_tmp = (1 / 60) * calories_burned_walking_permin
                 calories_burned_walking += calories_burned_walking_tmp
                 distance_walked += distance_walked_tmp
                 time_walking += 1
             else:
-                distance_run_tmp = (1.36 * 2) / 1000 #distance in kms
+                distance_run_tmp = (velocity * 2) / 1000 #distance in kms
                 calories_burned_running_permin = 0.035 * weight + (((velocity*2)**2) / height) * 0.029 * weight
                 calories_burned_running_tmp = (1 / 60) * calories_burned_running_permin
                 calories_burned_running += calories_burned_running_tmp
