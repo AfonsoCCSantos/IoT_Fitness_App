@@ -1,5 +1,6 @@
 def determine_velocity(age, gender):
     velocity = 1.36
+    gender = gender.lower()
     age = int(age)
     if gender == 'male':
         if age >= 20 and age <= 29:

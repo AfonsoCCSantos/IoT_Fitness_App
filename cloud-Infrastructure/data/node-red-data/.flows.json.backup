@@ -368,6 +368,17 @@
         "className": ""
     },
     {
+        "id": "f3d6df40a5ede7b1",
+        "type": "ui_group",
+        "name": "Activity Duration",
+        "tab": "b4ffd550631ffede",
+        "order": 10,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
         "id": "c0ac4c0e6be915ce",
         "type": "change",
         "z": "74c32751e4a3fe28",
@@ -909,7 +920,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 300,
+        "x": 260,
         "y": 220,
         "wires": [
             [
@@ -1156,7 +1167,7 @@
         "id": "f65029a478b83e15",
         "type": "ui_text",
         "z": "408cd1853017203e",
-        "group": "80fd122905837740",
+        "group": "f3d6df40a5ede7b1",
         "order": 1,
         "width": 0,
         "height": 0,
@@ -1177,7 +1188,7 @@
         "id": "4f6ed6f5ec166ff7",
         "type": "ui_text",
         "z": "408cd1853017203e",
-        "group": "80fd122905837740",
+        "group": "f3d6df40a5ede7b1",
         "order": 2,
         "width": 0,
         "height": 0,

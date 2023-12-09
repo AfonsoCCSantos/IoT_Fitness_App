@@ -732,14 +732,14 @@
         "height": 0,
         "options": [
             {
-                "label": "Activity Threshold for Running",
+                "label": "Minutes running to be active",
                 "value": "running_thresh",
                 "type": "number",
                 "required": true,
                 "rows": null
             },
             {
-                "label": "Activity Threshold for Walking",
+                "label": "Minutes walking to be active",
                 "value": "walking_thresh",
                 "type": "number",
                 "required": true,
@@ -920,7 +920,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 300,
+        "x": 260,
         "y": 220,
         "wires": [
             [
